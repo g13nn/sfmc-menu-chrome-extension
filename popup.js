@@ -97,3 +97,91 @@ document.addEventListener("DOMContentLoaded", () => {
     localStorage.setItem("menuVisibility", JSON.stringify(savedVisibility));
   });
 });
+
+
+
+
+
+document.addEventListener("DOMContentLoaded", () => {
+  const sortableOptions = document.getElementById("sortable-options");
+  const menu = document.getElementById("menu");
+
+  // Enable drag-and-drop sorting
+  sortableOptions.addEventListener("dragstart", (event) => {
+    event.target.classList.add("dragging");
+  });
+
+  sortableOptions.addEventListener("dragend", (event) => {
+    event.target.classList.remove("dragging");
+    saveOrder();
+  });
+
+  sortableOptions.addEventListener("dragover", (event) => {
+    event.preventDefault();
+    const draggingItem = document.querySelector(".dragging");
+    const afterElement = getDragAfterElement(sortableOptions, event.clientY);
+    if (afterElement == null) {
+      sortableOptions.appendChild(draggingItem);
+    } else {
+      sortableOptions.insertBefore(draggingItem, afterElement);
+    }
+  });
+
+  // Find the element to insert after
+  const getDragAfterElement = (container, y) => {
+    const draggableElements = [...container.querySelectorAll("li:not(.dragging)")];
+    return draggableElements.reduce(
+      (closest, child) => {
+        const box = child.getBoundingClientRect();
+        const offset = y - box.top - box.height / 2;
+        if (offset < 0 && offset > closest.offset) {
+          return { offset: offset, element: child };
+        } else {
+          return closest;
+        }
+      },
+      { offset: Number.NEGATIVE_INFINITY }
+    ).element;
+  };
+
+  // Save the order of items to localStorage
+  const saveOrder = () => {
+    const order = [...sortableOptions.children].map((item) =>
+      item.querySelector("input").getAttribute("data-button-id")
+    );
+    localStorage.setItem("menuOrder", JSON.stringify(order));
+    applyOrder(order);
+  };
+
+  // Apply the saved order to the menu
+  const applyOrder = (order) => {
+    order.forEach((buttonId) => {
+      const menuButton = document.getElementById(buttonId);
+      if (menuButton) {
+        menu.appendChild(menuButton);
+      }
+    });
+  };
+
+  // Load and apply saved order
+  const loadOrder = () => {
+    const savedOrder = JSON.parse(localStorage.getItem("menuOrder")) || [];
+    applyOrder(savedOrder);
+    savedOrder.forEach((buttonId) => {
+      const option = [...sortableOptions.children].find(
+        (item) => item.querySelector("input").getAttribute("data-button-id") === buttonId
+      );
+      if (option) {
+        sortableOptions.appendChild(option);
+      }
+    });
+  };
+
+  // Initialize by loading saved order
+  loadOrder();
+
+  // Enable drag-and-drop functionality for each list item
+  [...sortableOptions.children].forEach((item) => {
+    item.setAttribute("draggable", true);
+  });
+});
