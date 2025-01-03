@@ -7,21 +7,21 @@ document.addEventListener("DOMContentLoaded", () => {
   const savedVisibility = JSON.parse(localStorage.getItem("menuVisibility")) || {};
 
   // Base URL for the instance
-  const instance = "https://mc.exacttarget.com/cloud/#app/Email/Default.aspx";
+  // const instance = "https://mc.exacttarget.com/cloud/#app/Email/Default.aspx";
 
   // Map button IDs to specific paths
   const buttonUrls = {
-    button1: `${instance}/home`,
-    button2: `${instance}/overview`,
-    button3: `${instance}/email-studio`,
-    button4: `${instance}/subscribers`,
-    button5: `${instance}/cloud-pages`,
-    button6: `${instance}/reporting`,
-    button7: `${instance}/automation-studio`,
-    button8: `${instance}/journey-builder`,
-    button9: `${instance}/content-builder`,
-    button10: `${instance}/contact-builder`,
-    button11: `${instance}/admin`,
+    button1: `https://mc.exacttarget.com/cloud/#app/Marketing%20Cloud%20Dashboard/`,
+    button2: `https://mc.exacttarget.com/cloud/#app/Email/Default.aspx?ks=ks%23Overview`,
+    button3: `https://mc.exacttarget.com/cloud/#app/Email/Default.aspx?ks=ks%23Content`,
+    button4: `https://mc.exacttarget.com/cloud/#app/Email/Default.aspx?ks=ks%23Subscribers`,
+    button5: `https://mc.exacttarget.com/cloud/#app/CloudPages/`,
+    button6: `https://mc.exacttarget.com/cloud/#app/Reports/Reports/`,
+    button7: `https://mc.exacttarget.com/cloud/#app/Automation%20Studio/AutomationStudioFuel3/`,
+    button8: `https://mc.exacttarget.com/cloud/#app/Journey%20Builder/%23dashboard/view/all-journeys/`,
+    button9: `https://mc.exacttarget.com/cloud/#app/Content%20Builder/`,
+    button10: `https://mc.exacttarget.com/cloud/#app/Contact%20Builder/`,
+    button11: `https://mc.exacttarget.com/cloud/#app/Email/Default?ks=ks%23Admin`,
   };
 
   // Initialize menu and checkboxes based on saved state
