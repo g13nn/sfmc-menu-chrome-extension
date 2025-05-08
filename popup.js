@@ -2,12 +2,33 @@ document.addEventListener("DOMContentLoaded", () => {
   const settingsButton = document.getElementById("settings");
   const options = document.getElementById("options");
   const menu = document.getElementById("menu");
+  const html = document.documentElement;
+
+  // Set initial theme based on system preference
+  const setTheme = () => {
+    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
+    if (prefersDark) {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
+  };
+
+  // Initialize theme
+  setTheme();
+
+  // Listen for system theme changes
+  const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
+  darkModeMediaQuery.addEventListener("change", (e) => {
+    if (e.matches) {
+      html.classList.add("dark");
+    } else {
+      html.classList.remove("dark");
+    }
+  });
 
   // Load saved visibility state from localStorage
   const savedVisibility = JSON.parse(localStorage.getItem("menuVisibility")) || {};
-
-  // Base URL for the instance
-  // const instance = "https://mc.exacttarget.com/cloud/#app/Email/Default.aspx";
 
   // Map button IDs to specific paths
   const buttonUrls = {
@@ -52,9 +73,9 @@ document.addEventListener("DOMContentLoaded", () => {
           link.textContent = buttonText;
           link.href = buttonUrls[buttonId];
           link.target = "_blank";
-          link.className = "w-full h-full flex justify-center items-center"; // Optional: Adjust styles
-          button.innerHTML = ""; // Clear existing content
-          button.appendChild(link); // Add anchor to button
+          link.className = "w-full h-full flex justify-center items-center";
+          button.innerHTML = "";
+          button.appendChild(link);
         } else {
           // Update href if anchor already exists
           link.href = buttonUrls[buttonId];
@@ -64,18 +85,6 @@ document.addEventListener("DOMContentLoaded", () => {
   };
 
   initializeState();
-
-  // Toggle settings options and menu visibility
-  // settingsButton.addEventListener("click", () => {
-  //   const isOptionsHidden = options.classList.contains("hidden");
-  //   if (isOptionsHidden) {
-  //     options.classList.remove("hidden");
-  //     menu.classList.add("hidden");
-  //   } else {
-  //     options.classList.add("hidden");
-  //     menu.classList.remove("hidden");
-  //   }
-  // });
 
   // Handle checkbox changes
   options.addEventListener("change", (event) => {
@@ -98,10 +107,46 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 });
 
+// Settings button functionality
+document.addEventListener("DOMContentLoaded", () => {
+  const settingsButton = document.getElementById("settings");
+  const options = document.getElementById("options");
+  const menu = document.getElementById("menu");
 
+  // SVG icons for settings (cog) and close (X)
+  const cogIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+      <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
+      <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+    </svg>
+  `;
 
+  const closeIcon = `
+    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+    </svg>
+  `;
 
+  // Toggle the button icon and visibility of options
+  settingsButton.addEventListener("click", () => {
+    const isCog = settingsButton.innerHTML.includes("M10.325 4.317c.426-1.756 2.924-1.756 3.35 0");
 
+    // Clear button's innerHTML to remove all existing content
+    settingsButton.innerHTML = "";
+
+    // Add the appropriate icon
+    settingsButton.innerHTML = isCog ? closeIcon : cogIcon;
+
+    // Toggle visibility of menu and options
+    if (options && menu) {
+      const isOptionsHidden = options.classList.contains("hidden");
+      options.classList.toggle("hidden", !isOptionsHidden);
+      menu.classList.toggle("hidden", isOptionsHidden);
+    }
+  });
+});
+
+// Sortable functionality
 document.addEventListener("DOMContentLoaded", () => {
   const sortableOptions = document.getElementById("sortable-options");
   const menu = document.getElementById("menu");
@@ -183,61 +228,6 @@ document.addEventListener("DOMContentLoaded", () => {
   // Enable drag-and-drop functionality for each list item
   [...sortableOptions.children].forEach((item) => {
     item.setAttribute("draggable", true);
-  });
-});
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-document.addEventListener("DOMContentLoaded", () => {
-  const settingsButton = document.getElementById("settings");
-
-  // SVG icons for settings (cog) and close (X)
-  const cogIcon = `
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M12.22 2h-.44a2 2 0 0 0-2 2v.18a2 2 0 1 1-1 1.73l-.43.25a2 2 0 1 1-2 0l-.15-.08a2 2 0 0 0-2.73.73l-.22.38a2 2 0 0 0 .73 2.73l.15.1a2 2 0 0 1 1 1.72v.51a2 2 0 0 1-1 1.74l-.15.09a2 2 0 0 0-.73 2.73l.22.38a2 2 0 0 0 2.73.73l.15-.08a2 2 0 0 1 2 0l.43.25a2 2 0 0 1 1 1.73V20a2 2 0 0 0 2 2h.44a2 2 0 0 0 2-2v-.18a2 2 0 0 1 1-1.73l.43-.25a2 2 0 0 1 2 0l.15.08a2 2 0 0 0 2.73-.73l.22-.39a2 2 0 0 0-.73-2.73l-.15-.08a2 2 0 0 1-1-1.74v-.5a2 2 0 0 1 1-1.74l.15-.09a2 2 0 0 0 .73-2.73l-.22-.38a2 2 0 0 0-2.73-.73l-.15.08a2 2 0 0 1-2 0l-.43-.25a2 2 0 0 1-1-1.73V4a2 2 0 0 0-2-2z"></path>
-      <circle cx="12" cy="12" r="3"></circle>
-    </svg>
-  `;
-
-  const closeIcon = `
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-    </svg>
-  `;
-
-  // Toggle the button icon and visibility of options
-  settingsButton.addEventListener("click", () => {
-    const isCog = settingsButton.innerHTML.includes("circle");
-
-    // Clear button's innerHTML to remove all existing content
-    settingsButton.innerHTML = "";
-
-    // Add the appropriate icon
-    settingsButton.innerHTML = isCog ? closeIcon : cogIcon;
-
-    // Optional: Toggle visibility of menu and options
-    const options = document.getElementById("options");
-    const menu = document.getElementById("menu");
-
-    if (options && menu) {
-      const isOptionsHidden = options.classList.contains("hidden");
-      options.classList.toggle("hidden", !isOptionsHidden);
-      menu.classList.toggle("hidden", isOptionsHidden);
-    }
   });
 });
 
