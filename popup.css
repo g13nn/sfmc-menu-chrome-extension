@@ -57,8 +57,16 @@ body {
   border-bottom: 1px solid var(--border-color);
 }
 
+#menu button:hover svg {
+  color: #6b7280; /* gray-500 */
+}
+
 .dark #menu button {
   border-bottom: 1px solid var(--border-color-dark);
+}
+
+.dark #menu button:hover svg {
+  color: #9ca3af; /* gray-400 */
 }
 
 /* Settings panel dark mode */
@@ -83,6 +91,15 @@ body {
 
 .dark #sortable-options .sortable-icon {
   color: #ffffff;
+}
+
+/* Sortable icon hover states */
+#sortable-options li:hover .sortable-icon {
+  color: #6b7280; /* gray-500 */
+}
+
+.dark #sortable-options li:hover .sortable-icon {
+  color: #9ca3af; /* gray-400 */
 }
 
 /* Menu scrollbar styles */
