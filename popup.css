@@ -1,128 +1,526 @@
-@import "https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css";
-
+/* Root Variables */
 :root {
+  --width: 350px;  /* Increased width to accommodate sidebar */
+  --main-content-width: 350px;
+  --sidebar-width: 150px;
+  --padding: 18px;
+  --bg-white: #ffffff;
+  --bg-white-hover: #f5f5f5;
+  --bg-dark: #1e1e1e;
+  --bg-dark-hover: #2f2f2f;
   --border-color: #e5e7eb;
   --border-color-dark: #ffffff26;
-  --accent-color: #3b82f6;
+  --text-active-color: #00a1e1;
+  --text-color: #333333;
+  --sidebar-bg: #f8f9fa;
+  --sidebar-bg-dark: #252525;
 }
 
-* {
-  box-sizing: border-box;
+hr{
+  border:0;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Global CSS */
+#main {
+  height: 100vh;
+  overflow-y: auto;
 }
 
 body {
-  width: 350px;
-  min-height: 100px;
   margin: 0;
+  padding: 0;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+}
+
+.app-container {
+  width: var(--width);
+  margin: 0 auto;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* Utility classes */
+.hidden {
+  display: none !important;
+}
+
+/* Start Header CSS */
+#header {
+  position: relative; /* Ensure the container exists and allows sticky children */
+  z-index: 100;
+  width: 100%;
+}
+
+#header .container {
+  width: 100%;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid var(--border-color);
+  position: fixed;
+  top: 0;
+  background-color: var(--bg-white);
+  z-index: 1000; /* Higher than content below if needed */
+  padding: 0;
+  width: var(--width);
+}
+
+#header .logo {
+  padding-left: var(--padding);
+}
+
+#header .logo h1 {
+  font-size: 0.7rem;
+  margin: 0;
+  padding: 15px 0;
+  text-transform: uppercase;
+  display: flex;
+  align-items: center;
+}
+
+.header-icon {
+  margin-right: 8px;
+  vertical-align: middle;
+}
+
+#header .logo a {
+  text-decoration: none;
+  color: var(--bg-white);
+}
+
+#header .header-menu {}
+
+#settings {
+  background-color: var(--bg-white);
+  border: 0;
+  border-left: 1px solid var(--border-color);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50px;
+  height: 50px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+#settings:hover {
+  background-color: var(--bg-white-hover);
+}
+
+#settings svg {
+  color: var(--text-active-color);
+}
+
+#settings, h2 {
+  margin: 0;
+  color: var(--text-active-color);
+  font-size: 0.8rem;
+}
+
+#cog-icon, #close-icon {
+  transition: all 0.3s ease;
+}
+/* End Header CSS */
+
+/* Content Wrapper with Sidebar */
+.content-wrapper {
+  display: flex;
+  margin-top: 50px; /* Space for fixed header */
+}
+
+.main-content {
+  width: var(--main-content-width);
+  flex-shrink: 0;
+  background-color: #f9f9f9; /* Light grey background for main content to contrast with white cards */
+}
+
+
+/* Start Main CSS */
+#main-content-area {
+  width: 100%;
+}
+
+#main-menu {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1.2em;
+}
+
+#main-menu li {
+  text-align: center;
+  border-bottom: 1px solid var(--border-color);
+  display: block;
+  color: var(--text-color);
+}
+
+#main-menu li a {
+  text-decoration: none;
+  color: var(--text-color);
+  padding: 1rem;
+  display: block;
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+#main-menu li a:hover {
+  background-color: var(--bg-white-hover);
+  color: var(--text-active-color);
+}
+
+/* Hidden menu item styling in the main menu */
+#main-menu li.hidden {
+  display: none;
+}
+/* End Main CSS */
+
+/* Start Settings Menu CSS */
+#settings-menu {
+  padding: 15px;
+}
+
+#settings-menu h2 {
+  margin-top: 0;
+  color: var(--text-color);
+}
+
+#settings-menu h3 {
+  font-size: 0.8rem;
+  margin-bottom: 1em;
+}
+
+#sortable-options {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  font-size: 1.2em;
+  display: flex;
+  flex-direction: column;
+}
+
+#sortable-options li {
+  padding: 0.4em 1em;
+  border: 1px solid var(--border-color);
+  margin-bottom: 8px;
+  background-color: var(--bg-white);
+  color: var(--text-color);
+  cursor: grab;
+  border-radius: 6px;
+  display: flex;
+  align-items: center;
+  transition: background-color 0.2s ease, transform 0.1s ease;
+  box-shadow: 0 1px 2px rgba(0,0,0,0.05);
+  user-select: none; /* Prevent text selection during drag */
+}
+
+#sortable-options li span {
+  flex: 1;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+/* Checkbox styling */
+.menu-item-checkbox {
+  margin-right: 8px;
+  cursor: pointer;
+}
+
+/* Delete icon styling */
+.delete-icon {
+  margin-left: 8px;
+  cursor: pointer;
+  color: #ff5555;
+  opacity: 0.7;
+  transition: opacity 0.2s ease;
+  font-size: 1.2em;
+  display: none; /* Hidden by default, will be shown for custom links */
+}
+
+.delete-icon:hover {
+  opacity: 1;
+}
+
+/* Custom link styling */
+.custom-link .delete-icon {
+  display: inline-block;
+}
+
+/* Hidden menu item styling */
+.hidden-menu-item {
+  opacity: 0.5;
+}
+
+#sortable-options li:hover {
+  background-color: var(--bg-white-hover);
+}
+
+#sortable-options li:active {
+  cursor: grabbing;
+  transform: scale(0.98);
+  background-color: var(--bg-white-hover);
+}
+
+#sortable-options li::before {
+  content: "≡";
+  display: inline-block;
+  margin-right: 10px;
+  color: #ffffff;
+  font-size: 1.4em;
+}
+
+#sortable-options li.dragging {
+  opacity: 0.8;
+  background-color: var(--bg-white-hover);
+  box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  z-index: 10;
+}
+
+#sortable-options li.drag-over {
+  border: 1px dashed var(--text-active-color);
+  transform: scale(1.01);
+}
+
+/* Add Link Form */
+.form-group {
+  margin-bottom: 12px;
+}
+
+#add-link-form input {
+  width: 100%;
+  padding: 8px 8px;
+  border: 1px solid var(--border-color);
+  border-radius: 4px;
+  font-size: 0.9rem;
+  box-sizing: border-box;
+  transition: border 0.2s ease;
+}
+
+#add-link-form input:focus {
+  outline: none;
+  border: 2px solid var(--text-active-color);
+  padding: 7px; /* Adjust padding to compensate for larger border */
+}
+
+#add-link-button {
+  background-color: var(--text-active-color);
+  color: #ffffff;
+  border: none;
+  padding: 12px 15px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: opacity 0.2s ease, transform 0.1s ease;
+  width: 100%;
+  margin-top: 5px;
+  font-size: 0.7rem;
+  text-transform: uppercase;
+}
+
+#add-link-button:hover {
+  opacity: 0.9;
+}
+
+#add-link-button:active {
+  transform: scale(0.98);
+}
+
+/* Settings Section Cards */
+.settings-section,
+.add-link-section,
+.color-settings-section {
+  margin-bottom: 1em;
+  background-color: var(--bg-white);
+  border: 1px solid var(--border-color);
+  border-radius: 8px;
+  padding: 16px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.04);
+  transition: box-shadow 0.2s ease;
+}
+
+.settings-section h3,
+.add-link-section h3,
+.color-settings-section h3 {
+  color: var(--text-active-color);
+  font-weight: 600;
+  font-size: 0.8rem;
+  margin-bottom: 1em;
+  margin-top: 0;
+}
+
+.settings-section hr,
+.add-link-section hr,
+.color-settings-section hr {
+  margin-top: 0px;
+  margin-bottom: 15px;
+  border: 0;
+  border-top: 1px solid var(--border-color);
+}
+
+/* Subtle hover effect on cards */
+.settings-section:hover,
+.add-link-section:hover,
+.color-settings-section:hover {
+  box-shadow: 0 3px 6px rgba(0,0,0,0.08);
+}
+
+/* Color Settings Section */
+.color-settings-section {
+  margin-top: 1em;
+}
+
+.color-picker-wrapper {
+  display: flex;
+  align-items: center;
+  margin-bottom: 15px;
+}
+
+#accent-color {
+  -webkit-appearance: none;
+  width: 35px;
+  height: 35px;
+  padding: 0;
+  margin: 0;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  margin-right: 10px;
+}
+
+#accent-color::-webkit-color-swatch {
+  border: none;
+  border-radius: 4px;
   padding: 0;
 }
 
-/* Dark mode styles */
-.dark {
-  color-scheme: dark;
-}
-
-.dark body {
-  background-color: #212121;
-  color: #ffffff;
-}
-
-.dark .bg-white {
-  background-color: #212121;
-}
-
-.dark .border,
-.dark .border-b,
-.dark .border-l {
-  border-color: var(--border-color-dark) !important;
-}
-
-.dark .text-gray-700 {
-  color: #e5e7eb;
-}
-
-/* Settings panel */
-#options {
-  max-height: none;
-  overflow-y: visible;
-}
-
-#options::-webkit-scrollbar {
-  display: none;
-}
-
-/* Menu button styles */
-#menu button {
-  border-radius: 0;
-  border-bottom: 1px solid var(--border-color);
-}
-
-#menu button:hover svg {
-  color: #6b7280; /* gray-500 */
-}
-
-.dark #menu button {
-  border-bottom: 1px solid var(--border-color-dark);
-}
-
-.dark #menu button:hover svg {
-  color: #9ca3af; /* gray-400 */
-}
-
-/* Settings panel dark mode */
-.dark #options {
-  background-color: #212121;
-  border-color: var(--border-color-dark);
-}
-
-/* Sortable options dark mode */
-.dark #sortable-options li {
-  background-color: #212121;
-  border-color: var(--border-color-dark);
-}
-
-.dark #sortable-options li:hover {
-  background-color: #2f2f2f;
-}
-
-.dark #sortable-options label {
-  color: #ffffff;
-}
-
-.dark #sortable-options .sortable-icon {
-  color: #ffffff;
-}
-
-/* Sortable icon hover states */
-#sortable-options li:hover .sortable-icon {
-  color: #6b7280; /* gray-500 */
-}
-
-.dark #sortable-options li:hover .sortable-icon {
-  color: #9ca3af; /* gray-400 */
-}
-
-/* Menu scrollbar styles */
-#menu {
-  max-height: 500px;
-  overflow-y: auto;
-  scrollbar-width: thin;
-  scrollbar-color: #9ca3af transparent;
-}
-
-#menu::-webkit-scrollbar {
-  width: 8px;
-}
-
-#menu::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-#menu::-webkit-scrollbar-thumb {
-  background-color: #9ca3af;
+#accent-color::-webkit-color-swatch-wrapper {
+  border: none;
   border-radius: 4px;
+  padding: 0;
 }
 
-.dark #menu::-webkit-scrollbar-thumb {
-  background-color: #2f2f2f;
+#color-value {
+  font-size: 0.9rem;
+  color: var(--text-color);
+  font-family: monospace;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-size: 0.85rem;
+  font-weight: 500;
+}
+
+/* Clean up dark mode section to remove duplicates */
+@media (prefers-color-scheme: dark) {
+  body {
+    background-color: var(--bg-dark);
+    color: #ffffff;
+  }
+
+  .main-content {
+    background-color: var(--bg-dark); /* Darker grey for the background in dark mode */
+  }
+  
+  #header .container {
+    background-color: var(--bg-dark);
+    border-color: var(--border-color-dark);
+  }
+
+  #settings {
+    background-color: var(--bg-dark);
+    border-left: 1px solid var(--border-color-dark);
+    color: #ffffff;
+  }
+  
+  #settings:hover {
+    background-color: var(--bg-dark-hover);
+    border-left: 1px solid var(--border-color-dark);
+    color: #ffffff;
+  }
+  
+  #main-menu li {
+    border-bottom: 1px solid var(--border-color-dark);
+    display: block;
+  }
+  
+  #main-menu li a {
+    color: #ffffff;
+  }
+  
+  #main-menu li a:hover {
+    background-color: var(--bg-dark-hover);
+    color: var(--text-active-color);
+    display: block;
+  }
+  
+  /* Card and section styling for dark mode */
+  body .settings-section,
+  body .add-link-section,
+  body .color-settings-section {
+    background-color: var(--bg-dark-hover); /* Slightly lighter than the background */
+    border-color: var(--border-color-dark);
+    box-shadow: 0 2px 5px rgba(0,0,0,0.15);
+    color: #ffffff;
+  }
+  
+  body .settings-section:hover,
+  body .add-link-section:hover,
+  body .color-settings-section:hover {
+    box-shadow: 0 3px 8px rgba(0,0,0,0.25);
+  }
+  
+  .settings-section h3,
+  .add-link-section h3,
+  .color-settings-section h3 {
+    color: var(--text-active-color);
+  }
+  
+  .settings-section hr,
+  .add-link-section hr,
+  .color-settings-section hr {
+    border-color: var(--border-color-dark);
+  }
+  
+  /* Sortable list items in dark mode */
+  #sortable-options li {
+    background-color: var(--bg-dark); /* Slightly darker than the card background */
+    border-color: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+  }
+  
+  #sortable-options li:hover {
+    background-color: var(--text-active-color);
+  }
+  
+  #sortable-options li::before {
+    color: #aaa;
+  }
+  
+  #sortable-options li.dragging {
+    background-color: var(--bg-dark-hover);
+    box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+  }
+  
+  /* Form elements in dark mode */
+  #add-link-form input {
+    background-color: var(--bg-dark);
+    border-color: var(--border-color-dark);
+    color: #fff;
+  }
+  
+  #color-value {
+    color: #fff;
+  }
+  
+  hr {
+    border-top: 1px solid var(--border-color-dark);
+  }
+  
+  /* Ensure form labels are visible */
+  .form-group label {
+    color: #ddd;
+  }
 }

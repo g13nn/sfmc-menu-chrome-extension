@@ -1,463 +1,131 @@
 <!DOCTYPE html>
-<html lang="en" class="antialiased">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>SFMC Menu</title>
   <link href="popup.css" rel="stylesheet">
-  <style>
-    /* Align the sortable icon to the far right */
-    .sortable-icon {
-      cursor: grab;
-      transition: opacity 0.2s ease-in-out;
-    }
-  
-    /* Show the sortable icon only on hover */
-    li:hover .sortable-icon {
-      opacity: 1;
-    }
-  
-    li .sortable-icon {
-      opacity: 0;
-    }
-
-    /* Theme transition */
-    body {
-      transition: background-color 0.3s ease, color 0.3s ease;
-    }
-
-    /* Main menu button hover styles */
-    #menu button {
-      transition: background-color 0.2s ease;
-    }
-
-    #menu button:hover {
-      background-color: #f9fafb;
-    }
-
-    .dark #menu button:hover {
-      background-color: #2f2f2f !important;
-    }
-
-    #menu button a {
-      transition: color 0.2s ease;
-      color: inherit;
-    }
-
-    #menu button:hover a {
-      color: #3b82f6 !important;
-    }
-
-    .dark #menu button:hover a {
-      color: #60a5fa !important;
-    }
-
-    /* Custom link form styles */
-    .custom-link-form {
-      display: none;
-    }
-
-    .custom-link-form.active {
-      display: block;
-    }
-
-    /* Settings panel scroll */
-    #options {
-      max-height: 500px;
-      overflow-y: auto;
-    }
-
-    /* Custom link form dark mode styles */
-    .custom-link-form {
-      background-color: #f3f4f6;
-      border-color: #e5e7eb;
-    }
-
-    .dark .custom-link-form {
-      background-color: #212121;
-      border-color: #ffffff26;
-    }
-
-    .custom-link-form input {
-      background-color: white;
-      border-color: #e5e7eb;
-      color: #111827;
-    }
-
-    .dark .custom-link-form input {
-      background-color: #212121;
-      border-color: #ffffff26;
-      color: #ffffff;
-    }
-
-    .custom-link-form input:focus {
-      border-color: #3b82f6;
-      outline: none;
-      box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.1);
-    }
-
-    .dark .custom-link-form input:focus {
-      border-color: #60a5fa;
-      box-shadow: 0 0 0 2px rgba(96, 165, 250, 0.1);
-    }
-
-    .custom-link-form input::placeholder {
-      color: #9ca3af;
-    }
-
-    .dark .custom-link-form input::placeholder {
-      color: #6b7280;
-    }
-
-    #cancel-custom-link {
-      color: #6b7280;
-    }
-
-    .dark #cancel-custom-link {
-      color: #9ca3af;
-    }
-
-    #cancel-custom-link:hover {
-      color: #374151;
-    }
-
-    .dark #cancel-custom-link:hover {
-      color: #d1d5db;
-    }
-
-    #save-custom-link {
-      background-color: #3b82f6;
-      color: white;
-    }
-
-    #save-custom-link:hover {
-      background-color: #2563eb;
-    }
-
-    .dark #save-custom-link {
-      background-color: #60a5fa;
-    }
-
-    .dark #save-custom-link:hover {
-      background-color: #3b82f6;
-    }
-  </style>
 </head>
-<body class="bg-gray-100 dark:bg-black" style="box-sizing: border-box;">
-  <div>
-    <header class="sticky top-0">
-      <div class="flex items-center justify-between border-b border-[#ffffff26] bg-white dark:bg-[#212121]">
-        <div class="flex items-center">
-          <img src="icon/icon128.png" class="w-6 ml-4" />
-          <h1 class="text-xs font-bold ml-2 dark:text-white">SFMC Menu</h1>
+<body>
+  <div class="app-container">
+    <!-- Start Header - Full Width -->
+    <header id="header">
+      <div class="container">
+        <div class="logo">
+          <h1><img src="icon/icon16.png" alt="SFMC Icon" class="header-icon"> SFMC Menu</h1>
         </div>
-        <button id="settings" class="block border-l border-[#ffffff26] dark:text-white w-12 h-12 flex items-center justify-center bg-white dark:bg-[#212121] hover:bg-gray-50 dark:hover:bg-[#2f2f2f] focus:outline-none" title="Settings">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-            <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-            <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+        <button id="settings">
+          <svg id="cog-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
+            <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
+            <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+          </svg>
+          <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="display: none;">
+            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
           </svg>
         </button>
       </div>
-    </header>
-    <main class="p-0">
-      <ul id="menu" class="max-h-[500px] overflow-y-auto scrollbar-thin scrollbar-thumb-gray-300 dark:scrollbar-thumb-[#2f2f2f] scrollbar-track-transparent">
-        <li>
-          <button id="button1" class="bg-white dark:bg-[#212121] hover:bg-gray-50 dark:hover:bg-[#2f2f2f] w-full p-4 border-b border-gray-200 dark:border-[#ffffff26] font-medium text-sm">
-            <a href="https://mc.exacttarget.com/cloud/#app/Marketing%20Cloud%20Dashboard/" target="_blank" class="w-full h-full flex justify-center items-center text-gray-900 dark:text-white hover:text-[var(--accent-color)]">Home</a>
-          </button>
-        </li>
-        <li>
-          <button id="button2" class="bg-white dark:bg-[#212121] hover:bg-gray-50 dark:hover:bg-[#2f2f2f] w-full p-4 border-b border-gray-200 dark:border-[#ffffff26] font-medium text-sm">
-            <a href="https://mc.exacttarget.com/cloud/#app/Email/Default.aspx?ks=ks%23Overview" target="_blank" class="w-full h-full flex justify-center items-center text-gray-900 dark:text-white hover:text-[var(--accent-color)]">Overview</a>
-          </button>
-        </li>
-        <li>
-          <button id="button3" class="bg-white dark:bg-[#212121] hover:bg-gray-50 dark:hover:bg-[#2f2f2f] w-full p-4 border-b border-gray-200 dark:border-[#ffffff26] font-medium text-sm">
-            <a href="#" class="w-full h-full flex justify-center items-center text-gray-900 dark:text-white hover:text-[var(--accent-color)]">Content</a>
-          </button>
-        </li>
-        <li>
-          <button id="button4" class="bg-white dark:bg-[#212121] hover:bg-gray-50 dark:hover:bg-[#2f2f2f] w-full p-4 border-b border-gray-200 dark:border-[#ffffff26] font-medium text-sm">
-            <a href="#" class="w-full h-full flex justify-center items-center text-gray-900 dark:text-white hover:text-[var(--accent-color)]">Subscribers</a>
-          </button>
-        </li>
-        <li>
-          <button id="button5" class="bg-white dark:bg-[#212121] hover:bg-gray-50 dark:hover:bg-[#2f2f2f] w-full p-4 border-b border-gray-200 dark:border-[#ffffff26] font-medium text-sm">
-            <a href="#" class="w-full h-full flex justify-center items-center text-gray-900 dark:text-white hover:text-[var(--accent-color)]">Cloud Pages</a>
-          </button>
-        </li>
-        <li>
-          <button id="button6" class="bg-white dark:bg-[#212121] hover:bg-gray-50 dark:hover:bg-[#2f2f2f] w-full p-4 border-b border-gray-200 dark:border-[#ffffff26] font-medium text-sm">
-            <a href="#" class="w-full h-full flex justify-center items-center text-gray-900 dark:text-white hover:text-[var(--accent-color)]">Reporting</a>
-          </button>
-        </li>
-        <li>
-          <button id="button7" class="bg-white dark:bg-[#212121] hover:bg-gray-50 dark:hover:bg-[#2f2f2f] w-full p-4 border-b border-gray-200 dark:border-[#ffffff26] font-medium text-sm">
-            <a href="#" class="w-full h-full flex justify-center items-center text-gray-900 dark:text-white hover:text-[var(--accent-color)]">Automation Studio</a>
-          </button>
-        </li>
-        <li>
-          <button id="button8" class="bg-white dark:bg-[#212121] hover:bg-gray-50 dark:hover:bg-[#2f2f2f] w-full p-4 border-b border-gray-200 dark:border-[#ffffff26] font-medium text-sm">
-            <a href="#" class="w-full h-full flex justify-center items-center text-gray-900 dark:text-white hover:text-[var(--accent-color)]">Journey Builder</a>
-          </button>
-        </li>
-        <li>
-          <button id="button9" class="bg-white dark:bg-[#212121] hover:bg-gray-50 dark:hover:bg-[#2f2f2f] w-full p-4 border-b border-gray-200 dark:border-[#ffffff26] font-medium text-sm">
-            <a href="#" class="w-full h-full flex justify-center items-center text-gray-900 dark:text-white hover:text-[var(--accent-color)]">Content Builder</a>
-          </button>
-        </li>
-        <li>
-          <button id="button10" class="bg-white dark:bg-[#212121] hover:bg-gray-50 dark:hover:bg-[#2f2f2f] w-full p-4 border-b border-gray-200 dark:border-[#ffffff26] font-medium text-sm">
-            <a href="#" class="w-full h-full flex justify-center items-center text-gray-900 dark:text-white hover:text-[var(--accent-color)]">Contact Builder</a>
-          </button>
-        </li>
-        <li>
-          <button id="button11" class="bg-white dark:bg-[#212121] hover:bg-gray-50 dark:hover:bg-[#2f2f2f] w-full p-4 border-b border-gray-200 dark:border-[#ffffff26] font-medium text-sm">
-            <a href="#" class="w-full h-full flex justify-center items-center text-gray-900 dark:text-white hover:text-[var(--accent-color)]">Admin</a>
-          </button>
-        </li>
-      </ul>
-      <div id="options" class="hidden p-4 bg-white dark:bg-[#212121] border-t-0 border border-gray-200 dark:border-[#ffffff26] shadow-sm">
-        <div class="pt-0">
-          <div class="flex items-center justify-between mb-4">
-            <h3 class="text-xs font-medium text-gray-700 dark:text-white">Menu Items:</h3>
-            <button id="add-custom-link" class="flex items-center px-2 py-1 text-xs font-medium text-white bg-blue-500 hover:bg-blue-600 dark:bg-blue-600 dark:hover:bg-blue-700 rounded shadow-sm">
-              <svg xmlns="http://www.w3.org/2000/svg" class="w-3 h-3 mr-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4" />
-              </svg>
-              Add Link
-            </button>
+    </header> 
+    
+    <!-- Content Area with Sidebar and Main Content -->
+    <div class="content-wrapper">
+      <!-- Main Content Area -->
+      <div class="main-content">
+        <!-- Main Menu -->
+        <main id="main-content-area">
+          <ul id="main-menu">
+            <li>
+              <a href="https://mc.exacttarget.com/cloud/#app/Marketing%20Cloud%20Dashboard/" target="_blank">
+                Home
+              </a>
+            </li>
+            <li>
+              <a href="https://mc.exacttarget.com/cloud/#app/Email/Default.aspx?ks=ks%23Content" target="_blank">
+                Content
+              </a>
+            </li>
+            <li>
+              <a href="https://mc.exacttarget.com/cloud/#app/Email/Default.aspx?ks=ks%23Subscribers" target="_blank">
+                Subscribers
+              </a>
+            </li>
+            <li>
+              <a href="https://mc.exacttarget.com/cloud/#app/CloudPages/" target="_blank">
+                Cloud Pages
+              </a>
+            </li>
+            <li>
+              <a href="https://mc.exacttarget.com/cloud/#app/Reports/Reports/" target="_blank">
+                Reporting
+              </a>
+            </li>
+            <li>
+              <a href="https://mc.exacttarget.com/cloud/#app/Automation%20Studio/AutomationStudioFuel3/" target="_blank">
+                Automation Studio
+              </a>
+            </li>
+            <li>
+              <a href="https://mc.exacttarget.com/cloud/#app/Journey%20Builder/%23dashboard/view/all-journeys/" target="_blank">
+                Journey Builder
+              </a>
+            </li>
+            <li>
+              <a href="https://mc.exacttarget.com/cloud/#app/Content%20Builder/" target="_blank">
+                Content Builder
+              </a>
+            </li>
+            <li>
+              <a href="https://mc.exacttarget.com/cloud/#app/Contact%20Builder/" target="_blank">
+                Contact Builder
+              </a>
+            </li>
+            <li>
+              <a href="https://mc.exacttarget.com/cloud/#app/Email/Default?ks=ks%23Admin" target="_blank">
+                Admin
+              </a>
+            </li>
+          </ul>
+        </main>
+        
+        <!-- Settings Menu (Hidden by Default) -->
+        <div id="settings-menu" class="hidden">
+          <div class="settings-section">
+            <h3>Edit Menu Items:</h3>
+            <hr>
+            <ul id="sortable-options">
+              <!-- Menu items for reordering -->
+            </ul>
           </div>
-
-  
-
-          <!-- Custom Links Form -->
-          <div id="custom-link-form" class="custom-link-form mb-4 p-2 bg-gray-50 dark:bg-[#2f2f2f] rounded border border-gray-200 dark:border-[#ffffff26]">
-            <div class="space-y-3">
-              <div>
-                <label for="custom-link-name" class="block text-xs font-medium text-gray-700 dark:text-white mb-1">Name:</label>
-                <input type="text" id="custom-link-name" class="w-full px-2 py-2 text-sm border border-gray-300 dark:border-[#ffffff26] rounded bg-white dark:bg-[#212121] text-gray-900 dark:text-white" placeholder="Enter link name">
+          
+          <div class="add-link-section">
+            <h3>Custom Link:</h3>
+            <hr>
+            <form id="add-link-form">
+              <div class="form-group">
+                <input type="text" id="link-name" placeholder="Link Name" required>
               </div>
-              <div>
-                <label for="custom-link-url" class="block text-xs font-medium text-gray-700 dark:text-white mb-1">URL:</label>
-                <input type="url" id="custom-link-url" class="w-full px-2 py-2 text-sm border border-gray-300 dark:border-[#ffffff26] rounded bg-white dark:bg-[#212121] text-gray-900 dark:text-white" placeholder="https://">
+              <div class="form-group">
+                <input type="url" id="link-url" placeholder="Link URL (https://...)" required>
               </div>
-              <div class="flex justify-end space-x-2">
-                <button id="cancel-custom-link" class="px-3 py-1 text-xs text-gray-600 dark:text-gray-300 hover:text-gray-800 dark:hover:text-white">
-                  Cancel
-                </button>
-                <button id="save-custom-link" class="px-3 py-1 text-xs text-white bg-blue-500 hover:bg-blue-600 rounded">
-                  Save
-                </button>
+              <button type="submit" id="add-link-button">Add Custom Link</button>
+            </form>
+          </div>
+          
+          <div class="color-settings-section">
+            <h3>Appearance:</h3>
+            <hr>
+            <div class="form-group">
+              <label for="accent-color">Accent Color</label>
+              <div class="color-picker-wrapper">
+                <input type="color" id="accent-color" value="#00a1e1">
+                <span id="color-value">#00a1e1</span>
               </div>
             </div>
           </div>
-
-          <ul id="sortable-options" class="space-y-2">
-            <!-- Default menu items -->
-            <li class="flex items-center justify-between p-2 bg-gray-100 dark:bg-[#212121] hover:bg-gray-200 dark:hover:bg-[#2f2f2f] border border-gray-200 dark:border-[#ffffff26] rounded shadow-sm translate duration-300 group">
-              <div class="flex items-center flex-grow">
-                <input
-                  type="checkbox"
-                  data-button-id="button1"
-                  class="w-4 h-4 border-gray-300 rounded"
-                  checked
-                />
-                <label for="button1" class="ml-2 text-sm font-medium text-gray-700 dark:text-white">
-                  Home
-                </label>
-              </div>
-              <div class="sortable-icon ml-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-[#fff] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                </svg>
-              </div>
-            </li>
-            <li class="flex items-center justify-between p-2 bg-gray-100 dark:bg-[#212121] hover:bg-gray-200 dark:hover:bg-[#2f2f2f] border border-gray-200 dark:border-[#ffffff26] rounded shadow-sm translate duration-300 group">
-              <div class="flex items-center flex-grow">
-                <input
-                  type="checkbox"
-                  data-button-id="button2"
-                  class="w-4 h-4 border-gray-300 rounded"
-                  checked
-                />
-                <label for="button2" class="ml-2 text-sm font-medium text-gray-700 dark:text-white">
-                  Overview
-                </label>
-              </div>
-              <div class="sortable-icon ml-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-[#fff] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                </svg>
-              </div>
-            </li>
-            <li class="flex items-center justify-between p-2 bg-gray-100 dark:bg-[#212121] hover:bg-gray-200 dark:hover:bg-[#2f2f2f] border border-gray-200 dark:border-[#ffffff26] rounded shadow-sm translate duration-300 group">
-              <div class="flex items-center flex-grow">
-                <input
-                  type="checkbox"
-                  data-button-id="button3"
-                  class="w-4 h-4 border-gray-300 rounded"
-                  checked
-                />
-                <label for="button3" class="ml-2 text-sm font-medium text-gray-700 dark:text-white">
-                  Content
-                </label>
-              </div>
-              <div class="sortable-icon ml-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-[#fff] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                </svg>
-              </div>
-            </li>
-            <li class="flex items-center justify-between p-2 bg-gray-100 dark:bg-[#212121] hover:bg-gray-200 dark:hover:bg-[#2f2f2f] border border-gray-200 dark:border-[#ffffff26] rounded shadow-sm translate duration-300 group">
-              <div class="flex items-center flex-grow">
-                <input
-                  type="checkbox"
-                  data-button-id="button4"
-                  class="w-4 h-4 border-gray-300 rounded"
-                  checked
-                />
-                <label for="button4" class="ml-2 text-sm font-medium text-gray-700 dark:text-white">
-                  Subscribers
-                </label>
-              </div>
-              <div class="sortable-icon ml-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-[#fff] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                </svg>
-              </div>
-            </li>
-            <li class="flex items-center justify-between p-2 bg-gray-100 dark:bg-[#212121] hover:bg-gray-200 dark:hover:bg-[#2f2f2f] border border-gray-200 dark:border-[#ffffff26] rounded shadow-sm translate duration-300 group">
-              <div class="flex items-center flex-grow">
-                <input
-                  type="checkbox"
-                  data-button-id="button5"
-                  class="w-4 h-4 border-gray-300 rounded"
-                  checked
-                />
-                <label for="button5" class="ml-2 text-sm font-medium text-gray-700 dark:text-white">
-                  Cloud Pages
-                </label>
-              </div>
-              <div class="sortable-icon ml-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-[#fff] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                </svg>
-              </div>
-            </li>
-            <li class="flex items-center justify-between p-2 bg-gray-100 dark:bg-[#212121] hover:bg-gray-200 dark:hover:bg-[#2f2f2f] border border-gray-200 dark:border-[#ffffff26] rounded shadow-sm translate duration-300 group">
-              <div class="flex items-center flex-grow">
-                <input
-                  type="checkbox"
-                  data-button-id="button6"
-                  class="w-4 h-4 border-gray-300 rounded"
-                  checked
-                />
-                <label for="button6" class="ml-2 text-sm font-medium text-gray-700 dark:text-white">
-                  Reporting
-                </label>
-              </div>
-              <div class="sortable-icon ml-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-[#fff] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                </svg>
-              </div>
-            </li>
-            <li class="flex items-center justify-between p-2 bg-gray-100 dark:bg-[#212121] hover:bg-gray-200 dark:hover:bg-[#2f2f2f] border border-gray-200 dark:border-[#ffffff26] rounded shadow-sm translate duration-300 group">
-              <div class="flex items-center flex-grow">
-                <input
-                  type="checkbox"
-                  data-button-id="button7"
-                  class="w-4 h-4 border-gray-300 rounded"
-                  checked
-                />
-                <label for="button7" class="ml-2 text-sm font-medium text-gray-700 dark:text-white">
-                  Automation Studio
-                </label>
-              </div>
-              <div class="sortable-icon ml-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-[#fff] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                </svg>
-              </div>
-            </li>
-            <li class="flex items-center justify-between p-2 bg-gray-100 dark:bg-[#212121] hover:bg-gray-200 dark:hover:bg-[#2f2f2f] border border-gray-200 dark:border-[#ffffff26] rounded shadow-sm translate duration-300 group">
-              <div class="flex items-center flex-grow">
-                <input
-                  type="checkbox"
-                  data-button-id="button8"
-                  class="w-4 h-4 border-gray-300 rounded"
-                  checked
-                />
-                <label for="button8" class="ml-2 text-sm font-medium text-gray-700 dark:text-white">
-                  Journey Builder
-                </label>
-              </div>
-              <div class="sortable-icon ml-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-[#fff] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                </svg>
-              </div>
-            </li>
-            <li class="flex items-center justify-between p-2 bg-gray-100 dark:bg-[#212121] hover:bg-gray-200 dark:hover:bg-[#2f2f2f] border border-gray-200 dark:border-[#ffffff26] rounded shadow-sm translate duration-300 group">
-              <div class="flex items-center flex-grow">
-                <input
-                  type="checkbox"
-                  data-button-id="button9"
-                  class="w-4 h-4 border-gray-300 rounded"
-                  checked
-                />
-                <label for="button9" class="ml-2 text-sm font-medium text-gray-700 dark:text-white">
-                  Content Builder
-                </label>
-              </div>
-              <div class="sortable-icon ml-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-[#fff] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                </svg>
-              </div>
-            </li>
-            <li class="flex items-center justify-between p-2 bg-gray-100 dark:bg-[#212121] hover:bg-gray-200 dark:hover:bg-[#2f2f2f] border border-gray-200 dark:border-[#ffffff26] rounded shadow-sm translate duration-300 group">
-              <div class="flex items-center flex-grow">
-                <input
-                  type="checkbox"
-                  data-button-id="button10"
-                  class="w-4 h-4 border-gray-300 rounded"
-                  checked
-                />
-                <label for="button10" class="ml-2 text-sm font-medium text-gray-700 dark:text-white">
-                  Contact Builder
-                </label>
-              </div>
-              <div class="sortable-icon ml-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-[#fff] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                </svg>
-              </div>
-            </li>
-            <li class="flex items-center justify-between p-2 bg-gray-100 dark:bg-[#212121] hover:bg-gray-200 dark:hover:bg-[#2f2f2f] border border-gray-200 dark:border-[#ffffff26] rounded shadow-sm translate duration-300 group">
-              <div class="flex items-center flex-grow">
-                <input
-                  type="checkbox"
-                  data-button-id="button11"
-                  class="w-4 h-4 border-gray-300 rounded"
-                  checked
-                />
-                <label for="button11" class="ml-2 text-sm font-medium text-gray-700 dark:text-white">
-                  Admin
-                </label>
-              </div>
-              <div class="sortable-icon ml-2">
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-[#fff] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-                  <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-                </svg>
-              </div>
-            </li>
-          </ul>
         </div>
       </div>
-    </main>
-  </div>
+      
+
+  
   <script src="popup.js"></script>
 </body>
 </html>

@@ -1,406 +1,587 @@
-document.addEventListener("DOMContentLoaded", () => {
-  const settingsButton = document.getElementById("settings");
-  const options = document.getElementById("options");
-  const menu = document.getElementById("menu");
-  const html = document.documentElement;
-
-  // Set initial theme based on system preference
-  const setTheme = () => {
-    const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
-    if (prefersDark) {
-      html.classList.add("dark");
-    } else {
-      html.classList.remove("dark");
+document.addEventListener('DOMContentLoaded', function() {
+  // Get DOM elements
+  const settingsButton = document.getElementById('settings');
+  const cogIcon = document.getElementById('cog-icon');
+  const closeIcon = document.getElementById('close-icon');
+  const mainMenu = document.getElementById('main-menu');
+  const settingsMenu = document.getElementById('settings-menu');
+  const sortableOptions = document.getElementById('sortable-options');
+  const addLinkForm = document.getElementById('add-link-form');
+  const linkNameInput = document.getElementById('link-name');
+  const linkUrlInput = document.getElementById('link-url');
+  const colorPicker = document.getElementById('accent-color');
+  const colorValue = document.getElementById('color-value');
+  
+  // Default accent color
+  const DEFAULT_ACCENT_COLOR = '#00a1e1';
+  
+  // Store the original menu items for reference
+  const originalMenuItems = [];
+  
+  // Store custom links separately
+  let customLinks = [];
+  
+  // Load custom links from local storage
+  function loadCustomLinks() {
+    const savedCustomLinks = localStorage.getItem('sfmcCustomLinks');
+    if (savedCustomLinks) {
+      customLinks = JSON.parse(savedCustomLinks);
     }
-  };
-
-  // Initialize theme
-  setTheme();
-
-  // Listen for system theme changes
-  const darkModeMediaQuery = window.matchMedia("(prefers-color-scheme: dark)");
-  darkModeMediaQuery.addEventListener("change", (e) => {
-    if (e.matches) {
-      html.classList.add("dark");
-    } else {
-      html.classList.remove("dark");
-    }
-  });
-
-  // Load saved visibility state from localStorage
-  const savedVisibility = JSON.parse(localStorage.getItem("menuVisibility")) || {};
-
-  // Map button IDs to specific paths
-  const buttonUrls = {
-    button1: `https://mc.exacttarget.com/cloud/#app/Marketing%20Cloud%20Dashboard/`,
-    button2: `https://mc.exacttarget.com/cloud/#app/Email/Default.aspx?ks=ks%23Overview`,
-    button3: `https://mc.exacttarget.com/cloud/#app/Email/Default.aspx?ks=ks%23Content`,
-    button4: `https://mc.exacttarget.com/cloud/#app/Email/Default.aspx?ks=ks%23Subscribers`,
-    button5: `https://mc.exacttarget.com/cloud/#app/CloudPages/`,
-    button6: `https://mc.exacttarget.com/cloud/#app/Reports/Reports/`,
-    button7: `https://mc.exacttarget.com/cloud/#app/Automation%20Studio/AutomationStudioFuel3/`,
-    button8: `https://mc.exacttarget.com/cloud/#app/Journey%20Builder/%23dashboard/view/all-journeys/`,
-    button9: `https://mc.exacttarget.com/cloud/#app/Content%20Builder/`,
-    button10: `https://mc.exacttarget.com/cloud/#app/Contact%20Builder/`,
-    button11: `https://mc.exacttarget.com/cloud/#app/Email/Default?ks=ks%23Admin`,
-  };
-
-  // Initialize menu and checkboxes based on saved state
-  const initializeState = () => {
-    const checkboxes = document.querySelectorAll('[data-button-id]');
-    checkboxes.forEach((checkbox) => {
-      const buttonId = checkbox.getAttribute('data-button-id');
-      const button = document.getElementById(buttonId);
-
-      // Set checkbox state
-      checkbox.checked = savedVisibility[buttonId] !== false;
-
-      // Set menu button visibility
-      if (savedVisibility[buttonId] === false) {
-        button.classList.add("hidden");
-      } else {
-        button.classList.remove("hidden");
-      }
-
-      // Set button URL
-      if (buttonUrls[buttonId]) {
-        // Check if there's already an anchor inside
-        let link = button.querySelector("a");
-        if (!link) {
-          // Wrap button content in an anchor
-          const buttonText = button.textContent.trim();
-          link = document.createElement("a");
-          link.textContent = buttonText;
-          link.href = buttonUrls[buttonId];
-          link.target = "_blank";
-          link.className = "w-full h-full flex justify-center items-center";
-          button.innerHTML = "";
-          button.appendChild(link);
-        } else {
-          // Update href if anchor already exists
-          link.href = buttonUrls[buttonId];
-        }
-      }
-    });
-  };
-
-  initializeState();
-
-  // Handle checkbox changes
-  options.addEventListener("change", (event) => {
-    const checkbox = event.target;
-    if (!checkbox.hasAttribute('data-button-id')) return;
-
-    const buttonId = checkbox.getAttribute('data-button-id');
-    const button = document.getElementById(buttonId);
-
-    if (checkbox.checked) {
-      button.classList.remove("hidden");
-      savedVisibility[buttonId] = true;
-    } else {
-      button.classList.add("hidden");
-      savedVisibility[buttonId] = false;
-    }
-
-    // Save visibility state to localStorage
-    localStorage.setItem("menuVisibility", JSON.stringify(savedVisibility));
-  });
-});
-
-// Settings button functionality
-document.addEventListener("DOMContentLoaded", () => {
-  const settingsButton = document.getElementById("settings");
-  const options = document.getElementById("options");
-  const menu = document.getElementById("menu");
-
-  // SVG icons for settings (cog) and close (X)
-  const cogIcon = `
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-      <path d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
-      <path d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
-    </svg>
-  `;
-
-  const closeIcon = `
-    <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
-    </svg>
-  `;
-
-  // Toggle the button icon and visibility of options
-  settingsButton.addEventListener("click", () => {
-    const isCog = settingsButton.innerHTML.includes("M10.325 4.317c.426-1.756 2.924-1.756 3.35 0");
-
-    // Clear button's innerHTML to remove all existing content
-    settingsButton.innerHTML = "";
-
-    // Add the appropriate icon
-    settingsButton.innerHTML = isCog ? closeIcon : cogIcon;
-
-    // Toggle visibility of menu and options
-    if (options && menu) {
-      const isOptionsHidden = options.classList.contains("hidden");
-      options.classList.toggle("hidden", !isOptionsHidden);
-      menu.classList.toggle("hidden", isOptionsHidden);
-    }
-  });
-});
-
-// Custom Links functionality
-document.addEventListener("DOMContentLoaded", () => {
-  const addCustomLinkBtn = document.getElementById("add-custom-link");
-  const customLinkForm = document.getElementById("custom-link-form");
-  const cancelCustomLinkBtn = document.getElementById("cancel-custom-link");
-  const saveCustomLinkBtn = document.getElementById("save-custom-link");
-  const sortableOptions = document.getElementById("sortable-options");
-  const menu = document.getElementById("menu");
-
-  // Load saved custom links
-  const loadCustomLinks = () => {
-    const savedLinks = JSON.parse(localStorage.getItem("customLinks")) || [];
-    savedLinks.forEach(link => {
-      addCustomLinkToUI(link.name, link.url, link.id);
-    });
-  };
-
-  // Add custom link to UI
-  const addCustomLinkToUI = (name, url, id) => {
-    // Add to settings panel
-    const listItem = document.createElement("li");
-    listItem.className = "flex items-center justify-between p-2 bg-gray-100 dark:bg-[#212121] hover:bg-gray-200 dark:hover:bg-[#2f2f2f] border border-gray-200 dark:border-[#ffffff26] rounded shadow-sm translate duration-300 group";
-    listItem.setAttribute("draggable", "true");
-    listItem.setAttribute("data-button-id", `custom-${id}`);
-
-    listItem.innerHTML = `
-      <div class="flex items-center flex-grow">
-        <input type="checkbox" data-button-id="custom-${id}" class="w-4 h-4 border-gray-300 rounded" checked />
-        <label class="ml-2 text-sm font-medium text-gray-700 dark:text-white">${name}</label>
-      </div>
-      <div class="flex items-center">
-        <button class="delete-link text-red-500 hover:text-red-600 dark:text-red-400 dark:hover:text-red-300 mr-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
-          </svg>
-        </button>
-        <div class="sortable-icon ml-2">
-          <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-black dark:text-[#fff] group-hover:text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2">
-            <path stroke-linecap="round" stroke-linejoin="round" d="M8 9l4-4 4 4m0 6l-4 4-4-4" />
-          </svg>
-        </div>
-      </div>
-    `;
-
-    sortableOptions.appendChild(listItem);
-
-    // Add to menu
-    const menuItem = document.createElement("li");
-    menuItem.innerHTML = `
-      <button id="custom-${id}" class="bg-white dark:bg-[#212121] hover:bg-gray-50 dark:hover:bg-[#2f2f2f] hover:text-[var(--accent-color)] focus:bg-gray-100 dark:focus:bg-[#2f2f2f] w-full p-4 border-b border-gray-200 dark:border-[#ffffff26] font-medium text-sm">
-        <a href="${url}" target="_blank" class="w-full h-full flex justify-center items-center">${name}</a>
-      </button>
-    `;
-    menu.appendChild(menuItem);
-
-    // Add event listeners
-    const deleteBtn = listItem.querySelector(".delete-link");
-    deleteBtn.addEventListener("click", () => deleteCustomLink(id));
-
-    const checkbox = listItem.querySelector("input[type='checkbox']");
-    checkbox.addEventListener("change", (e) => {
-      const buttonId = e.target.getAttribute('data-button-id');
-      const button = document.getElementById(buttonId);
-      const savedVisibility = JSON.parse(localStorage.getItem("menuVisibility")) || {};
-
-      if (e.target.checked) {
-        button.classList.remove("hidden");
-        savedVisibility[buttonId] = true;
-      } else {
-        button.classList.add("hidden");
-        savedVisibility[buttonId] = false;
-      }
-
-      localStorage.setItem("menuVisibility", JSON.stringify(savedVisibility));
-    });
-  };
-
-  // Delete custom link
-  const deleteCustomLink = (id) => {
-    // Remove from UI
-    document.querySelector(`[data-button-id="custom-${id}"]`).remove();
-    document.getElementById(`custom-${id}`).parentElement.remove();
-
-    // Update localStorage
-    const savedLinks = JSON.parse(localStorage.getItem("customLinks")) || [];
-    const updatedLinks = savedLinks.filter(link => link.id !== id);
-    localStorage.setItem("customLinks", JSON.stringify(updatedLinks));
-
-    // Update visibility state
-    const savedVisibility = JSON.parse(localStorage.getItem("menuVisibility")) || {};
-    delete savedVisibility[`custom-${id}`];
-    localStorage.setItem("menuVisibility", JSON.stringify(savedVisibility));
-  };
-
-  // Show custom link form
-  addCustomLinkBtn.addEventListener("click", () => {
-    customLinkForm.classList.add("active");
-  });
-
-  // Hide custom link form
-  cancelCustomLinkBtn.addEventListener("click", () => {
-    customLinkForm.classList.remove("active");
-    document.getElementById("custom-link-name").value = "";
-    document.getElementById("custom-link-url").value = "";
-  });
-
-  // Save custom link
-  saveCustomLinkBtn.addEventListener("click", () => {
-    const name = document.getElementById("custom-link-name").value.trim();
-    const url = document.getElementById("custom-link-url").value.trim();
-
-    if (!name || !url) {
-      alert("Please fill in both name and URL fields");
-      return;
-    }
-
-    if (!url.startsWith("http://") && !url.startsWith("https://")) {
-      alert("Please enter a valid URL starting with http:// or https://");
-      return;
-    }
-
-    const id = Date.now().toString();
-    const newLink = { id, name, url };
-
-    // Add to UI
-    addCustomLinkToUI(name, url, id);
-
-    // Save to localStorage
-    const savedLinks = JSON.parse(localStorage.getItem("customLinks")) || [];
-    savedLinks.push(newLink);
-    localStorage.setItem("customLinks", JSON.stringify(savedLinks));
-
-    // Reset form
-    document.getElementById("custom-link-name").value = "";
-    document.getElementById("custom-link-url").value = "";
-    customLinkForm.classList.remove("active");
-  });
-
-  // Initialize custom links
+  }
+  
+  // Save custom links to local storage
+  function saveCustomLinks() {
+    localStorage.setItem('sfmcCustomLinks', JSON.stringify(customLinks));
+  }
+  
+  // Load custom links on startup
   loadCustomLinks();
-});
-
-// Sortable functionality
-document.addEventListener("DOMContentLoaded", () => {
-  const sortableOptions = document.getElementById("sortable-options");
-  const menu = document.getElementById("menu");
-
-  // Enable drag-and-drop sorting
-  sortableOptions.addEventListener("dragstart", (event) => {
-    event.target.classList.add("dragging");
-  });
-
-  sortableOptions.addEventListener("dragend", (event) => {
-    event.target.classList.remove("dragging");
-    saveOrder();
-  });
-
-  sortableOptions.addEventListener("dragover", (event) => {
-    event.preventDefault();
-    const draggingItem = document.querySelector(".dragging");
-    const afterElement = getDragAfterElement(sortableOptions, event.clientY);
-    if (afterElement == null) {
-      sortableOptions.appendChild(draggingItem);
-    } else {
-      sortableOptions.insertBefore(draggingItem, afterElement);
+  
+  // Load and apply saved accent color
+  function loadSavedAccentColor() {
+    const savedColor = localStorage.getItem('sfmcAccentColor');
+    if (savedColor) {
+      applyAccentColor(savedColor);
+      colorPicker.value = savedColor;
+      colorValue.textContent = savedColor;
     }
+  }
+  
+  // Apply accent color to the CSS root variables
+  function applyAccentColor(color) {
+    document.documentElement.style.setProperty('--text-active-color', color);
+  }
+  
+  // Save accent color to local storage
+  function saveAccentColor(color) {
+    localStorage.setItem('sfmcAccentColor', color);
+  }
+  
+  // Initialize color picker with saved value or default
+  loadSavedAccentColor();
+  
+  // Handle color picker changes
+  colorPicker.addEventListener('input', function(e) {
+    const newColor = e.target.value;
+    applyAccentColor(newColor);
+    colorValue.textContent = newColor;
   });
-
-  // Find the element to insert after
-  const getDragAfterElement = (container, y) => {
-    const draggableElements = [...container.querySelectorAll("li:not(.dragging)")];
-    return draggableElements.reduce(
-      (closest, child) => {
-        const box = child.getBoundingClientRect();
-        const offset = y - box.top - box.height / 2;
-        if (offset < 0 && offset > closest.offset) {
-          return { offset: offset, element: child };
-        } else {
-          return closest;
-        }
-      },
-      { offset: Number.NEGATIVE_INFINITY }
-    ).element;
-  };
-
-  // Save the order of items to localStorage
-  const saveOrder = () => {
-    const order = [...sortableOptions.children].map((item) => {
-      const buttonId = item.querySelector("input[type='checkbox']").getAttribute("data-button-id");
-      return buttonId;
-    });
-    localStorage.setItem("menuOrder", JSON.stringify(order));
-    applyOrder(order);
-  };
-
-  // Apply the saved order to the menu
-  const applyOrder = (order) => {
-    order.forEach((buttonId) => {
-      const menuButton = document.getElementById(buttonId);
-      if (menuButton) {
-        menu.appendChild(menuButton.parentElement);
+  
+  // Handle color picker change completion (save on mouseup)
+  colorPicker.addEventListener('change', function(e) {
+    const newColor = e.target.value;
+    saveAccentColor(newColor);
+  });
+  
+  // Capture the original menu structure before any modifications
+  function captureOriginalMenu() {
+    originalMenuItems.length = 0; // Clear the array
+    
+    Array.from(mainMenu.querySelectorAll('li')).forEach(item => {
+      const link = item.querySelector('a');
+      if (link) {
+        // Check if this is a custom link
+        const isCustom = customLinks.some(customLink => 
+          customLink.text === link.textContent.trim() && 
+          customLink.href === link.getAttribute('href'));
+        
+        originalMenuItems.push({
+          text: link.textContent.trim(),
+          href: link.getAttribute('href'),
+          isCustom: isCustom,
+          isHidden: item.classList.contains('hidden')
+        });
       }
     });
-  };
+    
+    console.log('Captured original menu items:', originalMenuItems);
+  }
+  
+  // Capture original menu on load
+  captureOriginalMenu();
 
-  // Load and apply saved order
-  const loadOrder = () => {
-    const savedOrder = JSON.parse(localStorage.getItem("menuOrder")) || [];
-    if (savedOrder.length > 0) {
-      applyOrder(savedOrder);
-      savedOrder.forEach((buttonId) => {
-        const option = [...sortableOptions.children].find(
-          (item) => item.querySelector("input[type='checkbox']").getAttribute("data-button-id") === buttonId
-        );
-        if (option) {
-          sortableOptions.appendChild(option);
+  // Apply saved menu order if it exists
+  applySavedMenuOrder();
+  
+  // If we've applied a saved order, re-capture the current menu
+  captureOriginalMenu();
+
+  // Flag to track if the sortable options have been populated
+  let sortableOptionsPopulated = false;
+
+  // Toggle between main menu and settings
+  settingsButton.addEventListener('click', function() {
+    if (mainMenu.classList.contains('hidden')) {
+      // Show main menu, hide settings
+      mainMenu.classList.remove('hidden');
+      settingsMenu.classList.add('hidden');
+      
+      // Show cog icon, hide X icon
+      cogIcon.style.display = 'inline-block';
+      closeIcon.style.display = 'none';
+      
+      // Only update if the sortable options have been populated and changed
+      if (sortableOptionsPopulated && sortableOptions.children.length > 0) {
+        updateMenuFromSortableOptions();
+        
+        // Re-capture the menu after applying changes
+        captureOriginalMenu();
+      }
+    } else {
+      // Show settings, hide main menu
+      mainMenu.classList.add('hidden');
+      settingsMenu.classList.remove('hidden');
+      
+      // Hide cog icon, show X icon
+      cogIcon.style.display = 'none';
+      closeIcon.style.display = 'inline-block';
+      
+      // Populate sortable options based on current menu
+      populateSortableOptions();
+      sortableOptionsPopulated = true;
+    }
+  });
+  
+  // Handle add link form submission
+  addLinkForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    
+    const name = linkNameInput.value.trim();
+    const url = linkUrlInput.value.trim();
+    
+    if (name && url) {
+      // Add the new link to the menu
+      addLinkToMenu(name, url, true); // true indicates it's a custom link
+      
+      // Re-populate the sortable options
+      populateSortableOptions();
+      
+      // Reset the form
+      addLinkForm.reset();
+      
+      // Provide visual feedback
+      const button = document.getElementById('add-link-button');
+      const originalText = button.textContent;
+      button.textContent = 'Added!';
+      setTimeout(() => {
+        button.textContent = originalText;
+      }, 1500);
+    }
+  });
+  
+  // Function to add a new link to the menu
+  function addLinkToMenu(name, url, isCustom = false, isHidden = false) {
+    // Create new menu item
+    const li = document.createElement('li');
+    if (isHidden) li.classList.add('hidden');
+    
+    const a = document.createElement('a');
+    a.href = url;
+    a.target = '_blank';
+    a.textContent = name;
+    li.appendChild(a);
+    
+    // Add to the main menu
+    mainMenu.appendChild(li);
+    
+    // Add to the original menu items array
+    originalMenuItems.push({
+      text: name,
+      href: url,
+      isCustom: isCustom,
+      isHidden: isHidden
+    });
+    
+    // If it's a custom link, add to the custom links array
+    if (isCustom) {
+      customLinks.push({
+        text: name,
+        href: url
+      });
+      saveCustomLinks();
+    }
+    
+    // Save the updated menu to local storage
+    saveUpdatedMenu();
+    
+    console.log('Added new link:', name, url, 'Custom:', isCustom);
+  }
+  
+  // Function to delete a custom link
+  function deleteCustomLink(text, href) {
+    // Remove from customLinks array
+    customLinks = customLinks.filter(link => 
+      !(link.text === text && link.href === href));
+    saveCustomLinks();
+    
+    // Remove from originalMenuItems
+    const index = originalMenuItems.findIndex(item => 
+      item.text === text && item.href === href);
+    if (index !== -1) {
+      originalMenuItems.splice(index, 1);
+    }
+    
+    // Remove from the DOM
+    const menuItems = Array.from(mainMenu.querySelectorAll('li'));
+    const itemToRemove = menuItems.find(item => {
+      const link = item.querySelector('a');
+      return link && link.textContent.trim() === text && link.getAttribute('href') === href;
+    });
+    
+    if (itemToRemove) {
+      mainMenu.removeChild(itemToRemove);
+    }
+    
+    // Save the updated menu
+    saveUpdatedMenu();
+    
+    // Re-populate sortable options
+    populateSortableOptions();
+  }
+  
+  // Function to save the updated menu to local storage
+  function saveUpdatedMenu() {
+    const currentMenuItems = Array.from(mainMenu.querySelectorAll('li')).map(item => {
+      const link = item.querySelector('a');
+      const isHidden = item.classList.contains('hidden');
+      
+      // Check if this is a custom link
+      const isCustom = customLinks.some(customLink => 
+        customLink.text === link.textContent.trim() && 
+        customLink.href === link.getAttribute('href'));
+      
+      return {
+        text: link.textContent.trim(),
+        href: link.getAttribute('href'),
+        isCustom: isCustom,
+        isHidden: isHidden
+      };
+    });
+    
+    // Save to local storage
+    saveMenuOrder(currentMenuItems);
+  }
+  
+  // Function to load saved menu order from local storage
+  function getSavedMenuOrder() {
+    const savedOrder = localStorage.getItem('sfmcMenuOrder');
+    return savedOrder ? JSON.parse(savedOrder) : null;
+  }
+
+  // Function to save menu order to local storage
+  function saveMenuOrder(menuItems) {
+    localStorage.setItem('sfmcMenuOrder', JSON.stringify(menuItems));
+  }
+
+  // Function to apply the saved menu order to the main menu
+  function applySavedMenuOrder() {
+    const savedMenuItems = getSavedMenuOrder();
+    if (!savedMenuItems || !Array.isArray(savedMenuItems) || savedMenuItems.length === 0) {
+      console.log('No valid saved menu order found, using original menu');
+      return; // No saved order, use default
+    }
+    
+    console.log('Applying saved menu order:', savedMenuItems);
+    
+    // Validate saved menu items
+    const validItems = savedMenuItems.filter(item => 
+      item && typeof item === 'object' && item.text && item.href);
+    
+    if (validItems.length === 0) {
+      console.error('No valid items in saved menu, reverting to original');
+      applySavedMenuOrderFromOriginal();
+      return;
+    }
+    
+    // Clear the main menu
+    mainMenu.innerHTML = '';
+    
+    // Add menu items in the saved order
+    validItems.forEach(item => {
+      // If the href is undefined, missing or '#', try to find the original
+      let href = item.href;
+      if (!href || href === '#' || href === 'undefined') {
+        href = findOriginalHref(item.text);
+        console.log('Fixed missing href for', item.text, 'to', href);
+      }
+      
+      const li = document.createElement('li');
+      if (item.isHidden) li.classList.add('hidden');
+      
+      const a = document.createElement('a');
+      a.href = href;
+      a.target = '_blank';
+      a.textContent = item.text;
+      li.appendChild(a);
+      mainMenu.appendChild(li);
+      
+      // If this is a custom link, add it to the customLinks array if not already there
+      if (item.isCustom) {
+        const exists = customLinks.some(link => 
+          link.text === item.text && link.href === href);
+        
+        if (!exists) {
+          customLinks.push({
+            text: item.text,
+            href: href
+          });
+        }
+      }
+    });
+    
+    // Save custom links
+    saveCustomLinks();
+  }
+
+  // Function to populate sortable options from main menu items
+  function populateSortableOptions() {
+    // Clear existing items
+    sortableOptions.innerHTML = '';
+    
+    // Get all current menu items
+    const currentMenuItems = Array.from(mainMenu.querySelectorAll('li'));
+    console.log('Current menu items for sortable options:', currentMenuItems);
+    
+    // Add each menu item to the sortable list
+    currentMenuItems.forEach((menuItem, index) => {
+      const link = menuItem.querySelector('a');
+      const linkText = link.textContent.trim();
+      const href = link.getAttribute('href');
+      const isHidden = menuItem.classList.contains('hidden');
+      
+      // Check if this is a custom link
+      const isCustom = customLinks.some(customLink => 
+        customLink.text === linkText && customLink.href === href);
+      
+      console.log('Adding sortable item:', linkText, 'Href:', href, 'Custom:', isCustom);
+      
+      const listItem = document.createElement('li');
+      if (isCustom) listItem.classList.add('custom-link');
+      if (isHidden) listItem.classList.add('hidden-menu-item');
+      
+      // Add checkbox for visibility
+      const checkbox = document.createElement('input');
+      checkbox.type = 'checkbox';
+      checkbox.className = 'menu-item-checkbox';
+      checkbox.checked = !isHidden;
+      checkbox.title = isHidden ? 'Show this link' : 'Hide this link';
+      checkbox.addEventListener('change', function() {
+        const hidden = !this.checked;
+        
+        // Toggle hidden class in sortable list
+        if (hidden) {
+          listItem.classList.add('hidden-menu-item');
+        } else {
+          listItem.classList.remove('hidden-menu-item');
+        }
+        
+        // Store the visibility state
+        listItem.dataset.hidden = hidden;
+        
+        // Update the menu immediately
+        updateMenuFromSortableOptions();
+      });
+      listItem.appendChild(checkbox);
+      
+      // Use a span to hold the text
+      const textSpan = document.createElement('span');
+      textSpan.textContent = linkText;
+      listItem.appendChild(textSpan);
+      
+      // Add delete icon for custom links
+      if (isCustom) {
+        const deleteIcon = document.createElement('span');
+        deleteIcon.innerHTML = '✕';
+        deleteIcon.className = 'delete-icon';
+        deleteIcon.title = 'Delete this link';
+        deleteIcon.addEventListener('click', function(e) {
+          e.stopPropagation();
+          
+          if (confirm(`Delete "${linkText}"?`)) {
+            deleteCustomLink(linkText, href);
+          }
+        });
+        listItem.appendChild(deleteIcon);
+      }
+      
+      // Store href as an explicit attribute
+      listItem.setAttribute('data-href', href);
+      listItem.setAttribute('data-custom', isCustom);
+      listItem.setAttribute('data-hidden', isHidden);
+      
+      listItem.draggable = true;
+      sortableOptions.appendChild(listItem);
+    });
+    
+    // Add event listeners for drag and drop functionality
+    setupDragAndDrop();
+  }
+
+  // Function to update the main menu based on the sortable options
+  function updateMenuFromSortableOptions() {
+    const sortableItems = Array.from(sortableOptions.querySelectorAll('li'));
+    
+    // Verify we have sortable items to work with
+    if (sortableItems.length === 0) return;
+    
+    console.log('Sortable items:', sortableItems);
+    
+    const menuItems = sortableItems.map(item => {
+      // Get the text from the span element
+      const textElement = item.querySelector('span');
+      const text = textElement ? textElement.textContent.trim() : '';
+      
+      // Get href and other attributes from the data attributes
+      const href = item.getAttribute('data-href');
+      const isCustom = item.getAttribute('data-custom') === 'true';
+      const isHidden = item.getAttribute('data-hidden') === 'true';
+      
+      console.log('Item:', text, 'Href:', href, 'Custom:', isCustom, 'Hidden:', isHidden);
+      
+      return {
+        text: text,
+        href: href,
+        isCustom: isCustom,
+        isHidden: isHidden
+      };
+    });
+    
+    console.log('Menu items to save:', menuItems);
+    
+    // Only save if we have valid items
+    if (menuItems.some(item => item.text === '' || !item.href)) {
+      console.error('Invalid menu items detected, using original menu items instead');
+      // Use original menu items as a fallback
+      saveMenuOrder(originalMenuItems);
+      applySavedMenuOrderFromOriginal();
+      return;
+    }
+    
+    // Save the new order to local storage
+    saveMenuOrder(menuItems);
+    
+    // Apply the new order immediately
+    applySavedMenuOrder();
+  }
+  
+  // Function to apply the saved menu order using original items as fallback
+  function applySavedMenuOrderFromOriginal() {
+    // Clear the main menu
+    mainMenu.innerHTML = '';
+    
+    // Add menu items directly from original items
+    originalMenuItems.forEach(item => {
+      const li = document.createElement('li');
+      if (item.isHidden) li.classList.add('hidden');
+      
+      const a = document.createElement('a');
+      a.href = item.href;
+      a.target = '_blank';
+      a.textContent = item.text;
+      li.appendChild(a);
+      mainMenu.appendChild(li);
+    });
+  }
+
+  // Helper function to find the original href for a menu item text
+  function findOriginalHref(text) {
+    if (!text) {
+      console.error('Empty text provided to findOriginalHref');
+      return '#';
+    }
+    
+    console.log('Finding original href for:', text);
+    
+    // If originalMenuItems is empty, return a fallback URL
+    if (!originalMenuItems.length) {
+      console.error('Original menu items array is empty');
+      return 'https://mc.exacttarget.com/cloud/';
+    }
+    
+    // Try exact match first
+    let originalItem = originalMenuItems.find(item => item.text === text);
+    
+    // If no exact match, try case-insensitive match
+    if (!originalItem) {
+      originalItem = originalMenuItems.find(item => 
+        item.text.toLowerCase() === text.toLowerCase());
+    }
+    
+    // If still no match, try to find a partial match
+    if (!originalItem) {
+      originalItem = originalMenuItems.find(item => 
+        item.text.toLowerCase().includes(text.toLowerCase()) || 
+        text.toLowerCase().includes(item.text.toLowerCase()));
+    }
+    
+    // If all else fails, just return the first menu item's href as a fallback
+    if (!originalItem && originalMenuItems.length > 0) {
+      console.warn('No match found for', text, 'using first menu item as fallback');
+      return originalMenuItems[0].href;
+    }
+    
+    console.log('Found item:', originalItem);
+    return originalItem ? originalItem.href : 'https://mc.exacttarget.com/cloud/';
+  }
+
+  // Set up drag and drop functionality for sortable list
+  function setupDragAndDrop() {
+    const items = sortableOptions.querySelectorAll('li');
+    let draggedItem = null;
+    
+    items.forEach(item => {
+      // When drag starts
+      item.addEventListener('dragstart', function(e) {
+        draggedItem = this;
+        setTimeout(() => this.classList.add('dragging'), 0);
+      });
+      
+      // When drag ends
+      item.addEventListener('dragend', function() {
+        this.classList.remove('dragging');
+        draggedItem = null;
+      });
+      
+      // When dragging over an item
+      item.addEventListener('dragover', function(e) {
+        e.preventDefault();
+      });
+      
+      // When entering a drag target
+      item.addEventListener('dragenter', function(e) {
+        e.preventDefault();
+        if (this !== draggedItem) {
+          this.classList.add('drag-over');
         }
       });
-    }
-  };
-
-  // Initialize by loading saved order
-  loadOrder();
-
-  // Enable drag-and-drop functionality for each list item
-  [...sortableOptions.children].forEach((item) => {
-    item.setAttribute("draggable", true);
-  });
+      
+      // When leaving a drag target
+      item.addEventListener('dragleave', function() {
+        this.classList.remove('drag-over');
+      });
+      
+      // When dropping
+      item.addEventListener('drop', function(e) {
+        e.preventDefault();
+        if (this !== draggedItem) {
+          // Get the positions in the list
+          const allItems = Array.from(sortableOptions.querySelectorAll('li'));
+          const draggedPos = allItems.indexOf(draggedItem);
+          const droppedPos = allItems.indexOf(this);
+          
+          // Reorder the items
+          if (draggedPos < droppedPos) {
+            sortableOptions.insertBefore(draggedItem, this.nextSibling);
+          } else {
+            sortableOptions.insertBefore(draggedItem, this);
+          }
+          
+          this.classList.remove('drag-over');
+          
+          // Update the menu order in real-time
+          updateMenuFromSortableOptions();
+        }
+      });
+    });
+  }
 });
-
-// Color picker functionality
-document.addEventListener("DOMContentLoaded", () => {
-  const colorPicker = document.getElementById("accent-color-picker");
-  const colorValue = document.getElementById("accent-color-value");
-  
-  // Load saved color or use default
-  const savedColor = localStorage.getItem("accentColor") || "#3b82f6";
-  colorPicker.value = savedColor;
-  colorValue.textContent = savedColor;
-  document.documentElement.style.setProperty("--accent-color", savedColor);
-
-  // Update color when picker changes
-  colorPicker.addEventListener("input", (e) => {
-    const newColor = e.target.value;
-    colorValue.textContent = newColor;
-    document.documentElement.style.setProperty("--accent-color", newColor);
-    localStorage.setItem("accentColor", newColor);
-  });
-
-  // Update color when picker changes (for change event)
-  colorPicker.addEventListener("change", (e) => {
-    const newColor = e.target.value;
-    colorValue.textContent = newColor;
-    document.documentElement.style.setProperty("--accent-color", newColor);
-    localStorage.setItem("accentColor", newColor);
-  });
-});
-
