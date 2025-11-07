@@ -11,9 +11,13 @@ document.addEventListener('DOMContentLoaded', function() {
   const linkUrlInput = document.getElementById('link-url');
   const colorPicker = document.getElementById('accent-color');
   const colorValue = document.getElementById('color-value');
+  const alignLeftBtn = document.getElementById('align-left');
+  const alignCenterBtn = document.getElementById('align-center');
+  const alignRightBtn = document.getElementById('align-right');
+  const textSize = document.getElementById('text-size');
   
   // Default accent color
-  const DEFAULT_ACCENT_COLOR = '#00a1e1';
+  const DEFAULT_ACCENT_COLOR = '#0176d3';
   
   // Store the original menu items for reference
   const originalMenuItems = [];
@@ -49,7 +53,45 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Apply accent color to the CSS root variables
   function applyAccentColor(color) {
-    document.documentElement.style.setProperty('--text-active-color', color);
+    document.documentElement.style.setProperty('--accent-color', color);
+    // Create a darker version for hover states
+    const darker = darkenColor(color, 20);
+    document.documentElement.style.setProperty('--accent-color-dark', darker);
+    // Create a light pastel version for backgrounds
+    const light = hexToRgba(color, 0.1);
+    document.documentElement.style.setProperty('--accent-color-light', light);
+  }
+
+  // Apply fixed color to header cloud icon
+  function applyHeaderIconColor() {
+    const headerIcon = document.querySelector('.header-icon');
+    if (headerIcon) {
+      headerIcon.style.fill = '#27a1e0';
+    }
+  }
+  
+  // Function to darken a hex color
+  function darkenColor(color, percent) {
+    const num = parseInt(color.replace("#", ""), 16);
+    const amt = Math.round(2.55 * percent);
+    const R = (num >> 16) - amt;
+    const G = (num >> 8 & 0x00FF) - amt;
+    const B = (num & 0x0000FF) - amt;
+    return "#" + (0x1000000 + (R < 255 ? R < 1 ? 0 : R : 255) * 0x10000 +
+      (G < 255 ? G < 1 ? 0 : G : 255) * 0x100 +
+      (B < 255 ? B < 1 ? 0 : B : 255)).toString(16).slice(1);
+  }
+  
+  // Function to convert hex color to rgba with alpha
+  function hexToRgba(hex, alpha) {
+    const result = /^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
+    if (result) {
+      const r = parseInt(result[1], 16);
+      const g = parseInt(result[2], 16);
+      const b = parseInt(result[3], 16);
+      return `rgba(${r}, ${g}, ${b}, ${alpha})`;
+    }
+    return `rgba(1, 118, 211, ${alpha})`; // fallback to default blue
   }
   
   // Save accent color to local storage
@@ -59,6 +101,9 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Initialize color picker with saved value or default
   loadSavedAccentColor();
+
+  // Apply fixed color to header icon
+  applyHeaderIconColor();
   
   // Handle color picker changes
   colorPicker.addEventListener('input', function(e) {
@@ -72,21 +117,164 @@ document.addEventListener('DOMContentLoaded', function() {
     const newColor = e.target.value;
     saveAccentColor(newColor);
   });
+
+  // Text alignment functionality
+  function loadTextAlignment() {
+    const savedAlignment = localStorage.getItem('sfmcTextAlignment') || 'left';
+    setActiveAlignmentButton(savedAlignment);
+    applyTextAlignment(savedAlignment);
+  }
+
+  function setActiveAlignmentButton(alignment) {
+    // Remove active class from all buttons
+    document.querySelectorAll('.alignment-btn').forEach(btn => {
+      btn.classList.remove('active');
+    });
+    
+    // Add active class to the selected button
+    if (alignment === 'left') {
+      alignLeftBtn.classList.add('active');
+    } else if (alignment === 'center') {
+      alignCenterBtn.classList.add('active');
+    } else if (alignment === 'right') {
+      alignRightBtn.classList.add('active');
+    }
+  }
+
+  function applyTextAlignment(alignment) {
+    document.documentElement.style.setProperty('--menu-text-align', alignment);
+    // Update CSS for menu links
+    const menuLinks = document.querySelectorAll('.sf-nav-link');
+    menuLinks.forEach(link => {
+      link.style.textAlign = alignment;
+      if (alignment === 'center') {
+        link.style.justifyContent = 'center';
+      } else if (alignment === 'right') {
+        link.style.justifyContent = 'flex-end';
+      } else {
+        link.style.justifyContent = 'flex-start';
+      }
+    });
+  }
+
+  function saveTextAlignment(alignment) {
+    localStorage.setItem('sfmcTextAlignment', alignment);
+  }
+
+  // Text size functionality  
+  function loadTextSize() {
+    const savedSize = localStorage.getItem('sfmcTextSize') || '16';
+    textSize.value = savedSize;
+    applyTextSize(savedSize);
+  }
+
+  function applyTextSize(size) {
+    document.documentElement.style.setProperty('--menu-text-size', size + 'px');
+    // Update CSS for menu links
+    const menuLinks = document.querySelectorAll('.sf-nav-link');
+    menuLinks.forEach(link => {
+      link.style.fontSize = size + 'px';
+    });
+  }
+
+  function saveTextSize(size) {
+    localStorage.setItem('sfmcTextSize', size);
+  }
+
+  // Handle text alignment changes
+  alignLeftBtn.addEventListener('click', function() {
+    const alignment = 'left';
+    setActiveAlignmentButton(alignment);
+    applyTextAlignment(alignment);
+    saveTextAlignment(alignment);
+  });
+
+  alignCenterBtn.addEventListener('click', function() {
+    const alignment = 'center';
+    setActiveAlignmentButton(alignment);
+    applyTextAlignment(alignment);
+    saveTextAlignment(alignment);
+  });
+
+  alignRightBtn.addEventListener('click', function() {
+    const alignment = 'right';
+    setActiveAlignmentButton(alignment);
+    applyTextAlignment(alignment);
+    saveTextAlignment(alignment);
+  });
+
+  // Handle text size changes
+  textSize.addEventListener('input', function(e) {
+    const newSize = e.target.value;
+    applyTextSize(newSize);
+  });
+
+  textSize.addEventListener('change', function(e) {
+    const newSize = e.target.value;
+    saveTextSize(newSize);
+  });
+
+  // Initialize text settings
+  loadTextAlignment();
+  loadTextSize();
+
+  // Apply text settings to all existing menu items
+  function applySettingsToExistingMenuItems() {
+    const currentAlignment = localStorage.getItem('sfmcTextAlignment') || 'left';
+    const currentSize = localStorage.getItem('sfmcTextSize') || '16';
+    
+    const menuLinks = document.querySelectorAll('.sf-nav-link');
+    menuLinks.forEach(link => {
+      link.style.textAlign = currentAlignment;
+      link.style.fontSize = currentSize + 'px';
+      
+      if (currentAlignment === 'center') {
+        link.style.justifyContent = 'center';
+      } else if (currentAlignment === 'right') {
+        link.style.justifyContent = 'flex-end';
+      } else {
+        link.style.justifyContent = 'flex-start';
+      }
+    });
+  }
+
+  // Apply settings to existing menu items on load
+  applySettingsToExistingMenuItems();
+
+  // Helper function to apply text settings to a menu link element
+  function applyTextSettingsToLink(linkElement) {
+    const currentAlignment = localStorage.getItem('sfmcTextAlignment') || 'left';
+    const currentSize = localStorage.getItem('sfmcTextSize') || '16';
+    
+    linkElement.style.textAlign = currentAlignment;
+    linkElement.style.fontSize = currentSize + 'px';
+    
+    if (currentAlignment === 'center') {
+      linkElement.style.justifyContent = 'center';
+    } else if (currentAlignment === 'right') {
+      linkElement.style.justifyContent = 'flex-end';
+    } else {
+      linkElement.style.justifyContent = 'flex-start';
+    }
+  }
   
   // Capture the original menu structure before any modifications
   function captureOriginalMenu() {
     originalMenuItems.length = 0; // Clear the array
     
-    Array.from(mainMenu.querySelectorAll('li')).forEach(item => {
+    Array.from(mainMenu.querySelectorAll('.sf-nav-item')).forEach(item => {
       const link = item.querySelector('a');
       if (link) {
+        // Extract text content, excluding the icon
+        const textContent = link.textContent.trim();
+        
         // Check if this is a custom link
         const isCustom = customLinks.some(customLink => 
-          customLink.text === link.textContent.trim() && 
+          customLink.text === textContent && 
           customLink.href === link.getAttribute('href'));
         
         originalMenuItems.push({
-          text: link.textContent.trim(),
+          text: textContent,
           href: link.getAttribute('href'),
           isCustom: isCustom,
           isHidden: item.classList.contains('hidden')
@@ -169,16 +357,31 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
   
+  // Function to get appropriate SLDS icon for a menu item - removed icons for now
+  function getIconForMenuItem(text) {
+    // Return empty string - no icons
+    return '';
+  }
+
   // Function to add a new link to the menu
   function addLinkToMenu(name, url, isCustom = false, isHidden = false) {
     // Create new menu item
     const li = document.createElement('li');
+    li.className = 'sf-nav-item';
     if (isHidden) li.classList.add('hidden');
     
     const a = document.createElement('a');
+    a.className = 'sf-nav-link';
     a.href = url;
     a.target = '_blank';
-    a.textContent = name;
+    
+    // Apply current text settings
+    applyTextSettingsToLink(a);
+    
+    // Add icon and text
+    const iconHtml = getIconForMenuItem(name);
+    a.innerHTML = iconHtml + name;
+    
     li.appendChild(a);
     
     // Add to the main menu
@@ -222,7 +425,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
     
     // Remove from the DOM
-    const menuItems = Array.from(mainMenu.querySelectorAll('li'));
+    const menuItems = Array.from(mainMenu.querySelectorAll('.sf-nav-item'));
     const itemToRemove = menuItems.find(item => {
       const link = item.querySelector('a');
       return link && link.textContent.trim() === text && link.getAttribute('href') === href;
@@ -241,7 +444,7 @@ document.addEventListener('DOMContentLoaded', function() {
   
   // Function to save the updated menu to local storage
   function saveUpdatedMenu() {
-    const currentMenuItems = Array.from(mainMenu.querySelectorAll('li')).map(item => {
+    const currentMenuItems = Array.from(mainMenu.querySelectorAll('.sf-nav-item')).map(item => {
       const link = item.querySelector('a');
       const isHidden = item.classList.contains('hidden');
       
@@ -306,12 +509,21 @@ document.addEventListener('DOMContentLoaded', function() {
       }
       
       const li = document.createElement('li');
+      li.className = 'sf-nav-item';
       if (item.isHidden) li.classList.add('hidden');
       
       const a = document.createElement('a');
+      a.className = 'sf-nav-link';
       a.href = href;
       a.target = '_blank';
-      a.textContent = item.text;
+      
+      // Apply current text settings
+      applyTextSettingsToLink(a);
+      
+      // Add icon and text
+      const iconHtml = getIconForMenuItem(item.text);
+      a.innerHTML = iconHtml + item.text;
+      
       li.appendChild(a);
       mainMenu.appendChild(li);
       
@@ -339,7 +551,7 @@ document.addEventListener('DOMContentLoaded', function() {
     sortableOptions.innerHTML = '';
     
     // Get all current menu items
-    const currentMenuItems = Array.from(mainMenu.querySelectorAll('li'));
+    const currentMenuItems = Array.from(mainMenu.querySelectorAll('.sf-nav-item'));
     console.log('Current menu items for sortable options:', currentMenuItems);
     
     // Add each menu item to the sortable list
@@ -472,12 +684,21 @@ document.addEventListener('DOMContentLoaded', function() {
     // Add menu items directly from original items
     originalMenuItems.forEach(item => {
       const li = document.createElement('li');
+      li.className = 'sf-nav-item';
       if (item.isHidden) li.classList.add('hidden');
       
       const a = document.createElement('a');
+      a.className = 'sf-nav-link';
       a.href = item.href;
       a.target = '_blank';
-      a.textContent = item.text;
+      
+      // Apply current text settings
+      applyTextSettingsToLink(a);
+      
+      // Add icon and text
+      const iconHtml = getIconForMenuItem(item.text);
+      a.innerHTML = iconHtml + item.text;
+      
       li.appendChild(a);
       mainMenu.appendChild(li);
     });

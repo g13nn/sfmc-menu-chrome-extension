@@ -8,124 +8,160 @@
 </head>
 <body>
   <div class="app-container">
-    <!-- Start Header - Full Width -->
-    <header id="header">
-      <div class="container">
-        <div class="logo">
-          <h1><img src="icon/icon16.png" alt="SFMC Icon" class="header-icon"> SFMC Menu</h1>
-        </div>
-        <button id="settings">
-          <svg id="cog-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16">
-            <path d="M8 4.754a3.246 3.246 0 1 0 0 6.492 3.246 3.246 0 0 0 0-6.492zM5.754 8a2.246 2.246 0 1 1 4.492 0 2.246 2.246 0 0 1-4.492 0z"/>
-            <path d="M9.796 1.343c-.527-1.79-3.065-1.79-3.592 0l-.094.319a.873.873 0 0 1-1.255.52l-.292-.16c-1.64-.892-3.433.902-2.54 2.541l.159.292a.873.873 0 0 1-.52 1.255l-.319.094c-1.79.527-1.79 3.065 0 3.592l.319.094a.873.873 0 0 1 .52 1.255l-.16.292c-.892 1.64.901 3.434 2.541 2.54l.292-.159a.873.873 0 0 1 1.255.52l.094.319c.527 1.79 3.065 1.79 3.592 0l.094-.319a.873.873 0 0 1 1.255-.52l.292.16c1.64.893 3.434-.902 2.54-2.541l-.159-.292a.873.873 0 0 1 .52-1.255l.319-.094c1.79-.527 1.79-3.065 0-3.592l-.319-.094a.873.873 0 0 1-.52-1.255l.16-.292c.893-1.64-.902-3.433-2.541-2.54l-.292.159a.873.873 0 0 1-1.255-.52l-.094-.319zm-2.633.283c.246-.835 1.428-.835 1.674 0l.094.319a1.873 1.873 0 0 0 2.693 1.115l.291-.16c.764-.415 1.6.42 1.184 1.185l-.159.292a1.873 1.873 0 0 0 1.116 2.692l.318.094c.835.246.835 1.428 0 1.674l-.319.094a1.873 1.873 0 0 0-1.115 2.693l.16.291c.415.764-.42 1.6-1.185 1.184l-.291-.159a1.873 1.873 0 0 0-2.693 1.116l-.094.318c-.246.835-1.428.835-1.674 0l-.094-.319a1.873 1.873 0 0 0-2.692-1.115l-.292.16c-.764.415-1.6-.42-1.184-1.185l.159-.291A1.873 1.873 0 0 0 1.945 8.93l-.319-.094c-.835-.246-.835-1.428 0-1.674l.319-.094A1.873 1.873 0 0 0 3.06 4.377l-.16-.292c-.415-.764.42-1.6 1.185-1.184l.292.159a1.873 1.873 0 0 0 2.692-1.115l.094-.319z"/>
+    <!-- Header -->
+    <header id="header" class="sf-header">
+      <div class="sf-header-content">
+        <div class="sf-header-title">
+          <svg class="header-icon slds-icon" width="16" height="16" viewBox="0 0 52 52">
+            <path d="M43.8 22.4C42.3 14.4 35.4 8 27 8c-4.8 0-9.1 2.4-11.8 6.2C6.8 16.1 1 22.8 1 30.5 1 39.5 8.5 47 17.5 47h25c5.8 0 10.5-4.7 10.5-10.5 0-5.2-3.7-9.6-8.7-10.4-.2-.5-.4-1-.5-1.6 0-.7-.1-1.4-.2-2.1z"/>
           </svg>
-          <svg id="close-icon" xmlns="http://www.w3.org/2000/svg" width="20" height="20" fill="currentColor" viewBox="0 0 16 16" style="display: none;">
-            <path d="M2.146 2.854a.5.5 0 1 1 .708-.708L8 7.293l5.146-5.147a.5.5 0 0 1 .708.708L8.707 8l5.147 5.146a.5.5 0 0 1-.708.708L8 8.707l-5.146 5.147a.5.5 0 0 1-.708-.708L7.293 8 2.146 2.854Z"/>
+          <h1>SFMC Menu</h1>
+        </div>
+        <button id="settings" class="sf-button sf-button-icon" title="Settings">
+          <svg id="cog-icon" class="slds-icon" width="16" height="16" viewBox="0 0 24 24">
+            <path d="M12 15.5c-1.9 0-3.5-1.6-3.5-3.5s1.6-3.5 3.5-3.5 3.5 1.6 3.5 3.5-1.6 3.5-3.5 3.5zm7.4-3.2c0-.3 0-.6-.1-.9l2.1-1.6c.2-.1.2-.4.1-.6l-2-3.5c-.1-.2-.4-.3-.6-.2l-2.5 1c-.5-.4-1-.7-1.6-.9l-.4-2.6c0-.2-.2-.4-.5-.4h-4c-.2 0-.4.2-.4.4l-.4 2.6c-.6.2-1.1.5-1.6.9l-2.5-1c-.2-.1-.5 0-.6.2l-2 3.5c-.1.2-.1.5.1.6l2.1 1.6c0 .3-.1.6-.1.9s0 .6.1.9l-2.1 1.6c-.2.1-.2.4-.1.6l2 3.5c.1.2.4.3.6.2l2.5-1c.5.4 1 .7 1.6.9l.4 2.6c0 .2.2.4.5.4h4c.2 0 .4-.2.4-.4l.4-2.6c.6-.2 1.1-.5 1.6-.9l2.5 1c.2.1.5 0 .6-.2l2-3.5c.1-.2.1-.5-.1-.6l-2.1-1.6c.1-.3.1-.6.1-.9z"/>
+          </svg>
+          <svg id="close-icon" class="slds-icon" width="16" height="16" viewBox="0 0 24 24" style="display: none;">
+            <path d="M19 6.4L17.6 5 12 10.6 6.4 5 5 6.4 10.6 12 5 17.6 6.4 19 12 13.4 17.6 19 19 17.6 13.4 12z"/>
           </svg>
         </button>
       </div>
-    </header> 
-    
-    <!-- Content Area with Sidebar and Main Content -->
+    </header>
+
+    <!-- Main Content -->
     <div class="content-wrapper">
-      <!-- Main Content Area -->
-      <div class="main-content">
-        <!-- Main Menu -->
-        <main id="main-content-area">
-          <ul id="main-menu">
-            <li>
-              <a href="https://mc.exacttarget.com/cloud/#app/Marketing%20Cloud%20Dashboard/" target="_blank">
-                Home
-              </a>
-            </li>
-            <li>
-              <a href="https://mc.exacttarget.com/cloud/#app/Email/Default.aspx?ks=ks%23Content" target="_blank">
-                Content
-              </a>
-            </li>
-            <li>
-              <a href="https://mc.exacttarget.com/cloud/#app/Email/Default.aspx?ks=ks%23Subscribers" target="_blank">
-                Subscribers
-              </a>
-            </li>
-            <li>
-              <a href="https://mc.exacttarget.com/cloud/#app/CloudPages/" target="_blank">
-                Cloud Pages
-              </a>
-            </li>
-            <li>
-              <a href="https://mc.exacttarget.com/cloud/#app/Reports/Reports/" target="_blank">
-                Reporting
-              </a>
-            </li>
-            <li>
-              <a href="https://mc.exacttarget.com/cloud/#app/Automation%20Studio/AutomationStudioFuel3/" target="_blank">
-                Automation Studio
-              </a>
-            </li>
-            <li>
-              <a href="https://mc.exacttarget.com/cloud/#app/Journey%20Builder/%23dashboard/view/all-journeys/" target="_blank">
-                Journey Builder
-              </a>
-            </li>
-            <li>
-              <a href="https://mc.exacttarget.com/cloud/#app/Content%20Builder/" target="_blank">
-                Content Builder
-              </a>
-            </li>
-            <li>
-              <a href="https://mc.exacttarget.com/cloud/#app/Contact%20Builder/" target="_blank">
-                Contact Builder
-              </a>
-            </li>
-            <li>
-              <a href="https://mc.exacttarget.com/cloud/#app/Email/Default?ks=ks%23Admin" target="_blank">
-                Admin
-              </a>
-            </li>
-          </ul>
-        </main>
-        
-        <!-- Settings Menu (Hidden by Default) -->
-        <div id="settings-menu" class="hidden">
-          <div class="settings-section">
-            <h3>Edit Menu Items:</h3>
-            <hr>
-            <ul id="sortable-options">
+      <!-- Main Menu -->
+      <main id="main-content-area">
+        <ul id="main-menu" class="sf-nav">
+          <li class="sf-nav-item">
+            <a href="https://mc.exacttarget.com/cloud/" target="_blank" class="sf-nav-link">
+              Home
+            </a>
+          </li>
+          <li class="sf-nav-item">
+            <a href="https://mc.exacttarget.com/cloud/#app/Email/Default.aspx?ks=ks%23Content" target="_blank" class="sf-nav-link">
+              Content
+            </a>
+          </li>
+          <li class="sf-nav-item">
+            <a href="https://mc.exacttarget.com/cloud/#app/Email/Default.aspx?ks=ks%23Subscribers" target="_blank" class="sf-nav-link">
+              Subscribers
+            </a>
+          </li>
+          <li class="sf-nav-item">
+            <a href="https://mc.exacttarget.com/cloud/#app/CloudPages/" target="_blank" class="sf-nav-link">
+              Cloud Pages
+            </a>
+          </li>
+          <li class="sf-nav-item">
+            <a href="https://mc.exacttarget.com/cloud/#app/Analytics/" target="_blank" class="sf-nav-link">
+              Reporting
+            </a>
+          </li>
+          <li class="sf-nav-item">
+            <a href="https://mc.exacttarget.com/cloud/#app/Automation%20Studio/AutomationStudioFuel3/" target="_blank" class="sf-nav-link">
+              Automation Studio
+            </a>
+          </li>
+          <li class="sf-nav-item">
+            <a href="https://mc.exacttarget.com/cloud/#app/Journey%20Builder/%23dashboard/view/all-journeys/" target="_blank" class="sf-nav-link">
+              Journey Builder
+            </a>
+          </li>
+          <li class="sf-nav-item">
+            <a href="https://mc.exacttarget.com/cloud/#app/Content%20Builder/" target="_blank" class="sf-nav-link">
+              Content Builder
+            </a>
+          </li>
+          <li class="sf-nav-item">
+            <a href="https://mc.exacttarget.com/cloud/#app/Contact%20Builder/" target="_blank" class="sf-nav-link">
+              Contact Builder
+            </a>
+          </li>
+          <li class="sf-nav-item">
+                        <a href="https://mc.exacttarget.com/cloud/#app/Admin/" target="_blank" class="sf-nav-link">
+              Admin
+            </a>
+          </li>
+        </ul>
+      </main>
+
+      <!-- Settings Menu -->
+      <div id="settings-menu" class="hidden">
+        <div class="sf-card">
+          <div class="sf-card-header">
+            <h3>Edit Menu Items</h3>
+          </div>
+          <div class="sf-card-body">
+            <ul id="sortable-options" class="sf-sortable-list">
               <!-- Menu items for reordering -->
             </ul>
           </div>
-          
-          <div class="add-link-section">
-            <h3>Custom Link:</h3>
-            <hr>
-            <form id="add-link-form">
-              <div class="form-group">
-                <input type="text" id="link-name" placeholder="Link Name" required>
+        </div>
+
+        <div class="sf-card">
+          <div class="sf-card-header">
+            <h3>Custom Link</h3>
+          </div>
+          <div class="sf-card-body">
+            <form id="add-link-form" class="sf-form">
+              <div class="sf-form-group">
+                <label for="link-name">Link Name</label>
+                <input type="text" id="link-name" class="sf-input" placeholder="Enter link name" required>
               </div>
-              <div class="form-group">
-                <input type="url" id="link-url" placeholder="Link URL (https://...)" required>
+              <div class="sf-form-group">
+                <label for="link-url">Link URL</label>
+                <input type="url" id="link-url" class="sf-input" placeholder="https://example.com" required>
               </div>
-              <button type="submit" id="add-link-button">Add Custom Link</button>
+              <button type="submit" id="add-link-button" class="sf-button sf-button-brand">
+                Add Custom Link
+              </button>
             </form>
           </div>
-          
-          <div class="color-settings-section">
-            <h3>Appearance:</h3>
-            <hr>
-            <div class="form-group">
+        </div>
+
+        <div class="sf-card">
+          <div class="sf-card-header">
+            <h3>Appearance</h3>
+          </div>
+          <div class="sf-card-body">
+            <div class="sf-form-group">
               <label for="accent-color">Accent Color</label>
               <div class="color-picker-wrapper">
-                <input type="color" id="accent-color" value="#00a1e1">
-                <span id="color-value">#00a1e1</span>
+                <input type="color" id="accent-color" value="#0176d3">
+                <span id="color-value">#0176d3</span>
               </div>
+            </div>
+            <div class="sf-form-group" style="margin-top: 20px;">
+              <label>Text Alignment</label>
+              <div class="alignment-buttons">
+                <button type="button" id="align-left" class="alignment-btn active" data-alignment="left">
+                  <svg width="16" height="16" viewBox="0 0 24 24">
+                    <path d="M3 3h18v2H3V3zm0 4h12v2H3V7zm0 4h18v2H3v-2zm0 4h12v2H3v-2z"/>
+                  </svg>
+                </button>
+                <button type="button" id="align-center" class="alignment-btn" data-alignment="center">
+                  <svg width="16" height="16" viewBox="0 0 24 24">
+                    <path d="M3 3h18v2H3V3zm3 4h12v2H6V7zm-3 4h18v2H3v-2zm3 4h12v2H6v-2z"/>
+                  </svg>
+                </button>
+                <button type="button" id="align-right" class="alignment-btn" data-alignment="right">
+                  <svg width="16" height="16" viewBox="0 0 24 24">
+                    <path d="M3 3h18v2H3V3zm6 4h12v2H9V7zm-6 4h18v2H3v-2zm6 4h12v2H9v-2z"/>
+                  </svg>
+                </button>
+              </div>
+            </div>
+            <div class="sf-form-group" style="margin-top: 20px;">
+              <label for="text-size">Text Size (px)</label>
+              <input type="number" id="text-size" class="sf-input" value="16" min="10" max="24" step="1">
             </div>
           </div>
         </div>
       </div>
-      
+    </div>
+  </div>
 
-  
   <script src="popup.js"></script>
 </body>
 </html>

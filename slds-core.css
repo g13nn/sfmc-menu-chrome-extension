@@ -1,0 +1,370 @@
+/* Salesforce Lightning Design System - Core Components for SFMC Menu Extension */
+
+/* Typography */
+.slds-page-header__title {
+  font-size: 1.125rem;
+  font-weight: 400;
+  line-height: 1.25;
+  color: #181818;
+}
+
+/* Button Styles */
+.slds-button {
+  position: relative;
+  display: inline-block;
+  padding: 0;
+  background: transparent;
+  border: 1px solid transparent;
+  border-radius: 0.25rem;
+  line-height: 1.875rem;
+  text-decoration: none;
+  color: #0176d3;
+  text-align: center;
+  vertical-align: middle;
+  cursor: pointer;
+  user-select: none;
+  white-space: nowrap;
+  font-size: 0.75rem;
+  font-weight: 400;
+  text-transform: uppercase;
+  letter-spacing: 0.0625rem;
+}
+
+.slds-button_icon {
+  padding: 0.5rem;
+  line-height: 1;
+  border: 0;
+}
+
+.slds-button_icon-border-filled {
+  background-color: #ffffff;
+  border: 1px solid #dddbda;
+  color: #706e6b;
+}
+
+.slds-button_icon-border-filled:hover,
+.slds-button_icon-border-filled:focus {
+  background-color: #f3f3f3;
+  color: #014486;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.10);
+}
+
+.slds-button_brand {
+  background-color: #0176d3;
+  border-color: #0176d3;
+  color: #ffffff;
+  padding: 0.75rem 1rem;
+  font-size: 0.875rem;
+  font-weight: 400;
+  text-transform: none;
+  letter-spacing: normal;
+}
+
+.slds-button_brand:hover,
+.slds-button_brand:focus {
+  background-color: #014486;
+  border-color: #014486;
+}
+
+.slds-button__icon {
+  fill: currentColor;
+  width: 1rem;
+  height: 1rem;
+}
+
+/* Cards */
+.slds-card {
+  background: #ffffff;
+  border: 1px solid #dddbda;
+  border-radius: 0.25rem;
+  box-shadow: 0 2px 4px 0 rgba(0,0,0,.10);
+  display: block;
+  position: relative;
+}
+
+.slds-card__header {
+  padding: 1rem 1rem 0;
+  border-bottom: 1px solid #dddbda;
+  border-radius: 0.25rem 0.25rem 0 0;
+}
+
+.slds-card__header-title {
+  font-size: 1rem;
+  font-weight: 600;
+  line-height: 1.25;
+  color: #181818;
+}
+
+.slds-card__body {
+  padding: 1rem;
+}
+
+.slds-card__body_inner {
+  padding: 0;
+}
+
+/* Page Header */
+.slds-page-header {
+  background-color: #ffffff;
+  border-bottom: 1px solid #dddbda;
+  padding: 0;
+}
+
+.slds-page-header__row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1rem;
+}
+
+.slds-page-header__col-title {
+  flex: 1 1 auto;
+}
+
+.slds-page-header__col-actions {
+  flex: 0 0 auto;
+}
+
+.slds-page-header__controls {
+  display: flex;
+  align-items: center;
+}
+
+.slds-page-header__control {
+  margin-left: 0.5rem;
+}
+
+.slds-page-header__name-title h1 {
+  margin: 0;
+}
+
+/* Media Object */
+.slds-media {
+  display: flex;
+  align-items: flex-start;
+}
+
+.slds-media__figure {
+  margin-right: 0.75rem;
+  flex: 0 0 auto;
+}
+
+.slds-media__body {
+  flex: 1 1 auto;
+  min-width: 0;
+}
+
+.slds-media_center {
+  align-items: center;
+}
+
+/* Avatar */
+.slds-avatar {
+  display: inline-block;
+  overflow: hidden;
+  vertical-align: middle;
+  border-radius: 50%;
+  line-height: 1;
+  font-size: 1rem;
+}
+
+.slds-avatar_small {
+  width: 1.5rem;
+  height: 1.5rem;
+  font-size: 0.75rem;
+}
+
+.slds-avatar_circle {
+  border-radius: 50%;
+}
+
+.slds-avatar img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* Navigation */
+.slds-nav-vertical {
+  display: block;
+}
+
+.slds-nav-vertical__section {
+  border-bottom: 1px solid #dddbda;
+}
+
+.slds-nav-vertical__action {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.slds-nav-vertical__item {
+  border-bottom: 1px solid #dddbda;
+}
+
+.slds-nav-vertical__item:last-child {
+  border-bottom: none;
+}
+
+.slds-nav-vertical__action {
+  display: block !important;
+  padding: 0.75rem 1rem !important;
+  color: #181818 !important;
+  text-decoration: none !important;
+  font-size: 0.875rem !important;
+  font-weight: 400 !important;
+  line-height: 1.25 !important;
+  transition: background-color 0.1s ease !important;
+}
+
+.slds-nav-vertical__action:hover,
+.slds-nav-vertical__action:focus {
+  background-color: #f3f3f3 !important;
+  color: #0176d3 !important;
+  text-decoration: none !important;
+}
+
+/* Forms */
+.slds-form {
+  display: block;
+}
+
+.slds-form-element {
+  position: relative;
+  display: block;
+}
+
+.slds-form-element__label {
+  display: inline-block;
+  color: #181818;
+  font-size: 0.75rem;
+  font-weight: 400;
+  line-height: 1.5;
+  margin-bottom: 0.25rem;
+}
+
+.slds-form-element__control {
+  position: relative;
+}
+
+.slds-input {
+  background-color: #ffffff;
+  border: 1px solid #dddbda;
+  border-radius: 0.25rem;
+  width: 100%;
+  transition: border 0.1s linear, background-color 0.1s linear;
+  display: inline-block;
+  padding: 0.5rem 0.75rem;
+  line-height: 1.5;
+  color: #181818;
+  font-size: 0.875rem;
+  font-weight: 400;
+  box-sizing: border-box;
+}
+
+.slds-input:focus {
+  outline: 0;
+  border-color: #0176d3;
+  background-color: #ffffff;
+  box-shadow: 0 0 3px #0176d3;
+}
+
+/* Grid */
+.slds-grid {
+  display: flex;
+}
+
+.slds-grid_align-center {
+  justify-content: center;
+}
+
+.slds-grid_vertical-align-center {
+  align-items: center;
+}
+
+.slds-has-flexi-truncate {
+  flex: 1 1 0%;
+  min-width: 0;
+}
+
+/* Lists */
+.slds-list_vertical {
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.slds-has-dividers_around-space .slds-item {
+  border-bottom: 1px solid #dddbda;
+  padding: 0.75rem 0;
+}
+
+.slds-has-dividers_around-space .slds-item:last-child {
+  border-bottom: none;
+}
+
+/* Utility Classes */
+.slds-hide {
+  display: none !important;
+}
+
+.slds-m-around_none {
+  margin: 0 !important;
+}
+
+.slds-m-top_medium {
+  margin-top: 1rem !important;
+}
+
+.slds-m-top_small {
+  margin-top: 0.75rem !important;
+}
+
+.slds-m-bottom_small {
+  margin-bottom: 0.75rem !important;
+}
+
+.slds-m-right_small {
+  margin-right: 0.75rem !important;
+}
+
+.slds-text-body_small {
+  font-size: 0.75rem !important;
+}
+
+.slds-text-color_weak {
+  color: #706e6b !important;
+}
+
+.slds-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.slds-assistive-text {
+  position: absolute !important;
+  margin: -1px !important;
+  border: 0 !important;
+  padding: 0 !important;
+  width: 1px !important;
+  height: 1px !important;
+  overflow: hidden !important;
+  clip: rect(0 0 0 0) !important;
+  text-transform: none !important;
+  white-space: nowrap !important;
+}
+
+/* Items */
+.slds-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 0.75rem 0;
+  border-bottom: 1px solid #dddbda;
+}
+
+.slds-item:last-child {
+  border-bottom: none;
+}
