@@ -1,9 +1,8 @@
 {
   "manifest_version": 3,
   "name": "SFMC Menu",
-  "version": "1.0.5",
+  "version": "1.0.6",
   "description": "A simple menu for quick access to SFMC tools.",
-  "permissions": ["storage", "contextMenus"],
   "background": {
     "service_worker": "background.js"
   },
