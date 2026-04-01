@@ -1,4 +1,25 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // Test localStorage availability
+  console.log('=== SFMC Menu Extension Loading ===');
+  try {
+    const testKey = 'sfmc-test-' + Date.now();
+    localStorage.setItem(testKey, 'test');
+    const testValue = localStorage.getItem(testKey);
+    localStorage.removeItem(testKey);
+    
+    if (testValue === 'test') {
+      console.log('✓ localStorage is working');
+    } else {
+      console.error('✗ localStorage test failed');
+    }
+    
+    // Log current saved language
+    const savedLang = localStorage.getItem('sfmcLanguage');
+    console.log('Current saved language in localStorage:', savedLang || '(not set - will default to en)');
+  } catch (error) {
+    console.error('✗ localStorage error:', error);
+  }
+  
   // Get DOM elements
   const settingsButton = document.getElementById('settings');
   const cogIcon = document.getElementById('cog-icon');
@@ -945,10 +966,12 @@ document.addEventListener('DOMContentLoaded', function() {
   // Language selection functionality
   function loadLanguage() {
     const savedLanguage = localStorage.getItem('sfmcLanguage') || 'en';
-    console.log('Loading saved language:', savedLanguage);
+    console.log('=== Loading saved language:', savedLanguage, '===');
+    console.log('Available in localStorage:', localStorage.getItem('sfmcLanguage'));
     
     if (languageSelect) {
       languageSelect.value = savedLanguage;
+      console.log('Language select dropdown set to:', languageSelect.value);
     } else {
       console.error('Language select element not found!');
       return;
@@ -960,9 +983,13 @@ document.addEventListener('DOMContentLoaded', function() {
       initializeMenuMapping();
     }
     
+    console.log('Applying language:', savedLanguage, 'to menu and UI');
+    
     // Apply the saved language
     translateMenuItems(savedLanguage);
     updateUIText(savedLanguage);
+    
+    console.log('=== Language initialization complete ===');
   }
 
   function applyLanguage(language) {
@@ -972,14 +999,20 @@ document.addEventListener('DOMContentLoaded', function() {
 
   function saveLanguage(language) {
     console.log('Saving language to localStorage:', language);
-    localStorage.setItem('sfmcLanguage', language);
-    
-    // Verify save
-    const saved = localStorage.getItem('sfmcLanguage');
-    console.log('Language saved and verified:', saved);
-    
-    if (saved !== language) {
-      console.error('Language save failed! Expected:', language, 'Got:', saved);
+    try {
+      localStorage.setItem('sfmcLanguage', language);
+      
+      // Verify save
+      const saved = localStorage.getItem('sfmcLanguage');
+      console.log('Language saved and verified:', saved);
+      
+      if (saved !== language) {
+        console.error('Language save failed! Expected:', language, 'Got:', saved);
+      } else {
+        console.log('✓ Language successfully saved to localStorage');
+      }
+    } catch (error) {
+      console.error('Error saving language to localStorage:', error);
     }
   }
 
@@ -1123,6 +1156,14 @@ document.addEventListener('DOMContentLoaded', function() {
       
       // Apply current language to sortable list and UI
       const currentLanguage = localStorage.getItem('sfmcLanguage') || 'en';
+      console.log('Settings opened - applying language:', currentLanguage);
+      
+      // Update language select dropdown to match saved language
+      if (languageSelect && languageSelect.value !== currentLanguage) {
+        console.log('Updating language select from', languageSelect.value, 'to', currentLanguage);
+        languageSelect.value = currentLanguage;
+      }
+      
       updateSortableTranslations(currentLanguage);
       updateUIText(currentLanguage);
     }
