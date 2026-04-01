@@ -90,7 +90,7 @@
       <div id="settings-menu" class="hidden">
         <div class="sf-card">
           <div class="sf-card-header">
-            <h3>Edit Menu Items</h3>
+            <h3 data-i18n="editMenuItems">Edit Menu Items</h3>
           </div>
           <div class="sf-card-body">
             <ul id="sortable-options" class="sf-sortable-list">
@@ -101,19 +101,19 @@
 
         <div class="sf-card">
           <div class="sf-card-header">
-            <h3>Custom Link</h3>
+            <h3 data-i18n="customLink">Custom Link</h3>
           </div>
           <div class="sf-card-body">
             <form id="add-link-form" class="sf-form">
               <div class="sf-form-group">
-                <label for="link-name">Link Name</label>
-                <input type="text" id="link-name" class="sf-input" placeholder="Enter link name" required>
+                <label for="link-name" data-i18n="linkName">Link Name</label>
+                <input type="text" id="link-name" class="sf-input" data-i18n-placeholder="enterLinkName" placeholder="Enter link name" required>
               </div>
               <div class="sf-form-group">
-                <label for="link-url">Link URL</label>
+                <label for="link-url" data-i18n="linkUrl">Link URL</label>
                 <input type="url" id="link-url" class="sf-input" placeholder="https://example.com" required>
               </div>
-              <button type="submit" id="add-link-button" class="sf-button sf-button-brand">
+              <button type="submit" id="add-link-button" class="sf-button sf-button-brand" data-i18n="addCustomLink">
                 Add Custom Link
               </button>
             </form>
@@ -122,18 +122,18 @@
 
         <div class="sf-card">
           <div class="sf-card-header">
-            <h3>Appearance</h3>
+            <h3 data-i18n="appearance">Appearance</h3>
           </div>
           <div class="sf-card-body">
             <div class="sf-form-group">
-              <label for="accent-color">Accent Color</label>
+              <label for="accent-color" data-i18n="accentColor">Accent Color</label>
               <div class="color-picker-wrapper">
                 <input type="color" id="accent-color" value="#0176d3">
                 <span id="color-value">#0176d3</span>
               </div>
             </div>
             <div class="sf-form-group" style="margin-top: 20px;">
-              <label>Text Alignment</label>
+              <label data-i18n="textAlignment">Text Alignment</label>
               <div class="alignment-buttons">
                 <button type="button" id="align-left" class="alignment-btn active" data-alignment="left">
                   <svg width="16" height="16" viewBox="0 0 24 24">
@@ -153,8 +153,48 @@
               </div>
             </div>
             <div class="sf-form-group" style="margin-top: 20px;">
-              <label for="text-size">Text Size (px)</label>
+              <label for="text-size" data-i18n="textSize">Text Size (px)</label>
               <input type="number" id="text-size" class="sf-input" value="16" min="10" max="24" step="1">
+            </div>
+            <div class="sf-form-group" style="margin-top: 20px;">
+              <label for="font-weight" data-i18n="fontWeight">Font Weight</label>
+              <div class="font-weight-wrapper">
+                <input type="range" id="font-weight" class="sf-slider" value="400" min="100" max="900" step="100">
+                <span id="font-weight-value">400</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="sf-card">
+          <div class="sf-card-header">
+            <h3 data-i18n="language">Language</h3>
+          </div>
+          <div class="sf-card-body">
+            <div class="sf-form-group">
+              <label for="language-select" data-i18n="menuLanguage">Menu Language</label>
+              <select id="language-select" class="sf-select">
+                <option value="en">English</option>
+                <option value="es">Español (Spanish)</option>
+                <option value="pt">Português (Portuguese)</option>
+                <option value="fr">Français (French)</option>
+                <option value="de">Deutsch (German)</option>
+                <option value="it">Italiano (Italian)</option>
+                <option value="nl">Nederlands (Dutch)</option>
+                <option value="pl">Polski (Polish)</option>
+                <option value="sv">Svenska (Swedish)</option>
+                <option value="da">Dansk (Danish)</option>
+                <option value="no">Norsk (Norwegian)</option>
+                <option value="fi">Suomi (Finnish)</option>
+                <option value="ru">Русский (Russian)</option>
+                <option value="ja">日本語 (Japanese)</option>
+                <option value="ko">한국어 (Korean)</option>
+                <option value="zh-cn">简体中文 (Chinese Simplified)</option>
+                <option value="zh-tw">繁體中文 (Chinese Traditional)</option>
+                <option value="ar">العربية (Arabic)</option>
+                <option value="hi">हिन्दी (Hindi)</option>
+                <option value="th">ไทย (Thai)</option>
+              </select>
             </div>
           </div>
         </div>

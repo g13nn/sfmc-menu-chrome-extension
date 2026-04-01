@@ -694,6 +694,99 @@ select.sf-input {
 }
 
 /* ========================================
+   Font Weight Slider
+   ======================================== */
+
+.font-weight-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.sf-slider {
+  flex: 1;
+  height: 6px;
+  border-radius: 3px;
+  background: var(--sf-background-secondary);
+  outline: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
+
+.sf-slider::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.sf-slider::-webkit-slider-thumb:hover {
+  background: var(--accent-color-dark);
+  transform: scale(1.1);
+}
+
+.sf-slider::-moz-range-thumb {
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-color);
+  cursor: pointer;
+  border: none;
+  transition: all 0.15s ease;
+}
+
+.sf-slider::-moz-range-thumb:hover {
+  background: var(--accent-color-dark);
+  transform: scale(1.1);
+}
+
+.sf-slider::-moz-range-track {
+  height: 6px;
+  border-radius: 3px;
+  background: var(--sf-background-secondary);
+}
+
+#font-weight-value {
+  font-family: 'Courier New', monospace;
+  font-size: 12px;
+  color: var(--sf-text-weak);
+  min-width: 35px;
+  text-align: center;
+}
+
+/* ========================================
+   Language Select
+   ======================================== */
+
+.sf-select {
+  padding: 8px 12px;
+  border: 1px solid var(--sf-border-primary);
+  border-radius: 4px;
+  font-size: 14px;
+  color: var(--sf-text-default);
+  background: var(--sf-background-primary);
+  transition: border-color 0.15s ease, box-shadow 0.15s ease;
+  min-height: 36px;
+  cursor: pointer;
+  width: 100%;
+}
+
+.sf-select:focus {
+  outline: none;
+  border-color: var(--accent-color);
+  box-shadow: 0 0 0 1px var(--accent-color), 0 0 0 3px rgba(1, 118, 211, 0.1);
+}
+
+.sf-select option {
+  background: var(--sf-background-primary);
+  color: var(--sf-text-default);
+}
+
+/* ========================================
    Alignment Buttons
    ======================================== */
 

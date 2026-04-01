@@ -15,6 +15,9 @@ document.addEventListener('DOMContentLoaded', function() {
   const alignCenterBtn = document.getElementById('align-center');
   const alignRightBtn = document.getElementById('align-right');
   const textSize = document.getElementById('text-size');
+  const fontWeight = document.getElementById('font-weight');
+  const fontWeightValue = document.getElementById('font-weight-value');
+  const languageSelect = document.getElementById('language-select');
   
   // Default accent color
   const DEFAULT_ACCENT_COLOR = '#0176d3';
@@ -214,19 +217,780 @@ document.addEventListener('DOMContentLoaded', function() {
     saveTextSize(newSize);
   });
 
+  // Font weight functionality
+  function loadFontWeight() {
+    const savedWeight = localStorage.getItem('sfmcFontWeight') || '400';
+    fontWeight.value = savedWeight;
+    fontWeightValue.textContent = savedWeight;
+    applyFontWeight(savedWeight);
+  }
+
+  function applyFontWeight(weight) {
+    document.documentElement.style.setProperty('--menu-font-weight', weight);
+    // Update CSS for menu links
+    const menuLinks = document.querySelectorAll('.sf-nav-link');
+    menuLinks.forEach(link => {
+      link.style.fontWeight = weight;
+    });
+  }
+
+  function saveFontWeight(weight) {
+    localStorage.setItem('sfmcFontWeight', weight);
+  }
+
+  // Handle font weight changes
+  fontWeight.addEventListener('input', function(e) {
+    const newWeight = e.target.value;
+    fontWeightValue.textContent = newWeight;
+    applyFontWeight(newWeight);
+  });
+
+  fontWeight.addEventListener('change', function(e) {
+    const newWeight = e.target.value;
+    saveFontWeight(newWeight);
+  });
+
   // Initialize text settings
   loadTextAlignment();
   loadTextSize();
+  loadFontWeight();
+
+  // ============================================
+  // Language Translations
+  // ============================================
+  
+  const translations = {
+    en: {
+      // Menu items
+      'Home': 'Home',
+      'Content': 'Content',
+      'Subscribers': 'Subscribers',
+      'Cloud Pages': 'Cloud Pages',
+      'Reporting': 'Reporting',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'Content Builder',
+      'Contact Builder': 'Contact Builder',
+      'Admin': 'Admin',
+      // UI Labels
+      'editMenuItems': 'Edit Menu Items',
+      'customLink': 'Custom Link',
+      'appearance': 'Appearance',
+      'language': 'Language',
+      'linkName': 'Link Name',
+      'linkUrl': 'Link URL',
+      'accentColor': 'Accent Color',
+      'textAlignment': 'Text Alignment',
+      'textSize': 'Text Size (px)',
+      'fontWeight': 'Font Weight',
+      'menuLanguage': 'Menu Language',
+      'addCustomLink': 'Add Custom Link',
+      'enterLinkName': 'Enter link name'
+    },
+    es: {
+      // Menu items
+      'Home': 'Inicio',
+      'Content': 'Contenido',
+      'Subscribers': 'Suscriptores',
+      'Cloud Pages': 'Páginas en la nube',
+      'Reporting': 'Informes',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'Generador de contenido',
+      'Contact Builder': 'Generador de contactos',
+      'Admin': 'Administración',
+      // UI Labels
+      'editMenuItems': 'Editar elementos del menú',
+      'customLink': 'Enlace personalizado',
+      'appearance': 'Apariencia',
+      'language': 'Idioma',
+      'linkName': 'Nombre del enlace',
+      'linkUrl': 'URL del enlace',
+      'accentColor': 'Color de acento',
+      'textAlignment': 'Alineación del texto',
+      'textSize': 'Tamaño del texto (px)',
+      'fontWeight': 'Grosor de fuente',
+      'menuLanguage': 'Idioma del menú',
+      'addCustomLink': 'Agregar enlace personalizado',
+      'enterLinkName': 'Ingrese el nombre del enlace'
+    },
+    pt: {
+      // Menu items
+      'Home': 'Início',
+      'Content': 'Conteúdo',
+      'Subscribers': 'Assinantes',
+      'Cloud Pages': 'Páginas na nuvem',
+      'Reporting': 'Relatórios',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'Criador de conteúdo',
+      'Contact Builder': 'Criador de contatos',
+      'Admin': 'Administração',
+      // UI Labels
+      'editMenuItems': 'Editar itens do menu',
+      'customLink': 'Link personalizado',
+      'appearance': 'Aparência',
+      'language': 'Idioma',
+      'linkName': 'Nome do link',
+      'linkUrl': 'URL do link',
+      'accentColor': 'Cor de destaque',
+      'textAlignment': 'Alinhamento do texto',
+      'textSize': 'Tamanho do texto (px)',
+      'fontWeight': 'Peso da fonte',
+      'menuLanguage': 'Idioma do menu',
+      'addCustomLink': 'Adicionar link personalizado',
+      'enterLinkName': 'Digite o nome do link'
+    },
+    fr: {
+      // Menu items
+      'Home': 'Accueil',
+      'Content': 'Contenu',
+      'Subscribers': 'Abonnés',
+      'Cloud Pages': 'Pages cloud',
+      'Reporting': 'Rapports',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'Générateur de contenu',
+      'Contact Builder': 'Générateur de contacts',
+      'Admin': 'Administration',
+      // UI Labels
+      'editMenuItems': 'Modifier les éléments du menu',
+      'customLink': 'Lien personnalisé',
+      'appearance': 'Apparence',
+      'language': 'Langue',
+      'linkName': 'Nom du lien',
+      'linkUrl': 'URL du lien',
+      'accentColor': 'Couleur d\'accentuation',
+      'textAlignment': 'Alignement du texte',
+      'textSize': 'Taille du texte (px)',
+      'fontWeight': 'Épaisseur de la police',
+      'menuLanguage': 'Langue du menu',
+      'addCustomLink': 'Ajouter un lien personnalisé',
+      'enterLinkName': 'Entrez le nom du lien'
+    },
+    de: {
+      // Menu items
+      'Home': 'Startseite',
+      'Content': 'Inhalt',
+      'Subscribers': 'Abonnenten',
+      'Cloud Pages': 'Cloud-Seiten',
+      'Reporting': 'Berichte',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'Content Builder',
+      'Contact Builder': 'Contact Builder',
+      'Admin': 'Verwaltung',
+      // UI Labels
+      'editMenuItems': 'Menüelemente bearbeiten',
+      'customLink': 'Benutzerdefinierter Link',
+      'appearance': 'Erscheinungsbild',
+      'language': 'Sprache',
+      'linkName': 'Link-Name',
+      'linkUrl': 'Link-URL',
+      'accentColor': 'Akzentfarbe',
+      'textAlignment': 'Textausrichtung',
+      'textSize': 'Textgröße (px)',
+      'fontWeight': 'Schriftstärke',
+      'menuLanguage': 'Menüsprache',
+      'addCustomLink': 'Benutzerdefinierten Link hinzufügen',
+      'enterLinkName': 'Geben Sie den Link-Namen ein'
+    },
+    it: {
+      // Menu items
+      'Home': 'Home',
+      'Content': 'Contenuto',
+      'Subscribers': 'Iscritti',
+      'Cloud Pages': 'Pagine cloud',
+      'Reporting': 'Report',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'Generatore di contenuti',
+      'Contact Builder': 'Generatore di contatti',
+      'Admin': 'Amministrazione',
+      // UI Labels
+      'editMenuItems': 'Modifica voci di menu',
+      'customLink': 'Link personalizzato',
+      'appearance': 'Aspetto',
+      'language': 'Lingua',
+      'linkName': 'Nome del link',
+      'linkUrl': 'URL del link',
+      'accentColor': 'Colore di accento',
+      'textAlignment': 'Allineamento del testo',
+      'textSize': 'Dimensione del testo (px)',
+      'fontWeight': 'Spessore carattere',
+      'menuLanguage': 'Lingua del menu',
+      'addCustomLink': 'Aggiungi link personalizzato',
+      'enterLinkName': 'Inserisci il nome del link'
+    },
+    nl: {
+      // Menu items
+      'Home': 'Home',
+      'Content': 'Inhoud',
+      'Subscribers': 'Abonnees',
+      'Cloud Pages': 'Cloudpagina\'s',
+      'Reporting': 'Rapporten',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'Content Builder',
+      'Contact Builder': 'Contact Builder',
+      'Admin': 'Beheer',
+      // UI Labels
+      'editMenuItems': 'Menu-items bewerken',
+      'customLink': 'Aangepaste link',
+      'appearance': 'Uiterlijk',
+      'language': 'Taal',
+      'linkName': 'Linknaam',
+      'linkUrl': 'Link-URL',
+      'accentColor': 'Accentkleur',
+      'textAlignment': 'Tekstuitlijning',
+      'textSize': 'Tekstgrootte (px)',
+      'fontWeight': 'Letterdikte',
+      'menuLanguage': 'Menutaal',
+      'addCustomLink': 'Aangepaste link toevoegen',
+      'enterLinkName': 'Voer de linknaam in'
+    },
+    pl: {
+      // Menu items
+      'Home': 'Strona główna',
+      'Content': 'Zawartość',
+      'Subscribers': 'Subskrybenci',
+      'Cloud Pages': 'Strony w chmurze',
+      'Reporting': 'Raporty',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'Kreator treści',
+      'Contact Builder': 'Kreator kontaktów',
+      'Admin': 'Administracja',
+      // UI Labels
+      'editMenuItems': 'Edytuj elementy menu',
+      'customLink': 'Niestandardowy link',
+      'appearance': 'Wygląd',
+      'language': 'Język',
+      'linkName': 'Nazwa linku',
+      'linkUrl': 'Adres URL linku',
+      'accentColor': 'Kolor akcentu',
+      'textAlignment': 'Wyrównanie tekstu',
+      'textSize': 'Rozmiar tekstu (px)',
+      'fontWeight': 'Grubość czcionki',
+      'menuLanguage': 'Język menu',
+      'addCustomLink': 'Dodaj niestandardowy link',
+      'enterLinkName': 'Wprowadź nazwę linku'
+    },
+    sv: {
+      // Menu items
+      'Home': 'Hem',
+      'Content': 'Innehåll',
+      'Subscribers': 'Prenumeranter',
+      'Cloud Pages': 'Molnsidor',
+      'Reporting': 'Rapporter',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'Innehållsverktyg',
+      'Contact Builder': 'Kontaktverktyg',
+      'Admin': 'Administration',
+      // UI Labels
+      'editMenuItems': 'Redigera menyalternativ',
+      'customLink': 'Anpassad länk',
+      'appearance': 'Utseende',
+      'language': 'Språk',
+      'linkName': 'Länknamn',
+      'linkUrl': 'Länk-URL',
+      'accentColor': 'Accentfärg',
+      'textAlignment': 'Textjustering',
+      'textSize': 'Textstorlek (px)',
+      'fontWeight': 'Typsnittsvikt',
+      'menuLanguage': 'Menypråk',
+      'addCustomLink': 'Lägg till anpassad länk',
+      'enterLinkName': 'Ange länknamn'
+    },
+    da: {
+      // Menu items
+      'Home': 'Hjem',
+      'Content': 'Indhold',
+      'Subscribers': 'Abonnenter',
+      'Cloud Pages': 'Cloud-sider',
+      'Reporting': 'Rapporter',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'Indholdsværktøj',
+      'Contact Builder': 'Kontaktværktøj',
+      'Admin': 'Administration',
+      // UI Labels
+      'editMenuItems': 'Rediger menupunkter',
+      'customLink': 'Brugerdefineret link',
+      'appearance': 'Udseende',
+      'language': 'Sprog',
+      'linkName': 'Linknavn',
+      'linkUrl': 'Link-URL',
+      'accentColor': 'Accentfarve',
+      'textAlignment': 'Tekstjustering',
+      'textSize': 'Tekststørrelse (px)',
+      'fontWeight': 'Skrifttypevægt',
+      'menuLanguage': 'Menusprog',
+      'addCustomLink': 'Tilføj brugerdefineret link',
+      'enterLinkName': 'Indtast linknavn'
+    },
+    no: {
+      // Menu items
+      'Home': 'Hjem',
+      'Content': 'Innhold',
+      'Subscribers': 'Abonnenter',
+      'Cloud Pages': 'Skysider',
+      'Reporting': 'Rapporter',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'Innholdsverktøy',
+      'Contact Builder': 'Kontaktverktøy',
+      'Admin': 'Administrasjon',
+      // UI Labels
+      'editMenuItems': 'Rediger menyelementer',
+      'customLink': 'Egendefinert lenke',
+      'appearance': 'Utseende',
+      'language': 'Språk',
+      'linkName': 'Lenkenavn',
+      'linkUrl': 'Lenke-URL',
+      'accentColor': 'Aksentfarge',
+      'textAlignment': 'Tekstjustering',
+      'textSize': 'Tekststørrelse (px)',
+      'fontWeight': 'Skriftvekt',
+      'menuLanguage': 'Menyspråk',
+      'addCustomLink': 'Legg til egendefinert lenke',
+      'enterLinkName': 'Skriv inn lenkenavn'
+    },
+    fi: {
+      // Menu items
+      'Home': 'Koti',
+      'Content': 'Sisältö',
+      'Subscribers': 'Tilaajat',
+      'Cloud Pages': 'Pilvesivut',
+      'Reporting': 'Raportit',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'Sisällönluoja',
+      'Contact Builder': 'Yhteystietojen luoja',
+      'Admin': 'Hallinta',
+      // UI Labels
+      'editMenuItems': 'Muokkaa valikon kohteita',
+      'customLink': 'Mukautettu linkki',
+      'appearance': 'Ulkoasu',
+      'language': 'Kieli',
+      'linkName': 'Linkin nimi',
+      'linkUrl': 'Linkin URL',
+      'accentColor': 'Korostusväri',
+      'textAlignment': 'Tekstin tasaus',
+      'textSize': 'Tekstin koko (px)',
+      'fontWeight': 'Fontin paksuus',
+      'menuLanguage': 'Valikon kieli',
+      'addCustomLink': 'Lisää mukautettu linkki',
+      'enterLinkName': 'Anna linkin nimi'
+    },
+    ru: {
+      // Menu items
+      'Home': 'Главная',
+      'Content': 'Контент',
+      'Subscribers': 'Подписчики',
+      'Cloud Pages': 'Облачные страницы',
+      'Reporting': 'Отчеты',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'Конструктор контента',
+      'Contact Builder': 'Конструктор контактов',
+      'Admin': 'Администрирование',
+      // UI Labels
+      'editMenuItems': 'Редактировать элементы меню',
+      'customLink': 'Пользовательская ссылка',
+      'appearance': 'Внешний вид',
+      'language': 'Язык',
+      'linkName': 'Название ссылки',
+      'linkUrl': 'URL ссылки',
+      'accentColor': 'Цвет акцента',
+      'textAlignment': 'Выравнивание текста',
+      'textSize': 'Размер текста (px)',
+      'fontWeight': 'Толщина шрифта',
+      'menuLanguage': 'Язык меню',
+      'addCustomLink': 'Добавить пользовательскую ссылку',
+      'enterLinkName': 'Введите название ссылки'
+    },
+    ja: {
+      // Menu items
+      'Home': 'ホーム',
+      'Content': 'コンテンツ',
+      'Subscribers': '購読者',
+      'Cloud Pages': 'クラウドページ',
+      'Reporting': 'レポート',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'コンテンツビルダー',
+      'Contact Builder': 'コンタクトビルダー',
+      'Admin': '管理',
+      // UI Labels
+      'editMenuItems': 'メニュー項目を編集',
+      'customLink': 'カスタムリンク',
+      'appearance': '外観',
+      'language': '言語',
+      'linkName': 'リンク名',
+      'linkUrl': 'リンクURL',
+      'accentColor': 'アクセントカラー',
+      'textAlignment': 'テキストの配置',
+      'textSize': 'テキストサイズ (px)',
+      'fontWeight': 'フォントの太さ',
+      'menuLanguage': 'メニュー言語',
+      'addCustomLink': 'カスタムリンクを追加',
+      'enterLinkName': 'リンク名を入力'
+    },
+    ko: {
+      // Menu items
+      'Home': '홈',
+      'Content': '콘텐츠',
+      'Subscribers': '구독자',
+      'Cloud Pages': '클라우드 페이지',
+      'Reporting': '보고',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': '콘텐츠 빌더',
+      'Contact Builder': '연락처 빌더',
+      'Admin': '관리',
+      // UI Labels
+      'editMenuItems': '메뉴 항목 편집',
+      'customLink': '사용자 지정 링크',
+      'appearance': '모양',
+      'language': '언어',
+      'linkName': '링크 이름',
+      'linkUrl': '링크 URL',
+      'accentColor': '강조 색상',
+      'textAlignment': '텍스트 정렬',
+      'textSize': '텍스트 크기 (px)',
+      'fontWeight': '글꼴 굵기',
+      'menuLanguage': '메뉴 언어',
+      'addCustomLink': '사용자 지정 링크 추가',
+      'enterLinkName': '링크 이름 입력'
+    },
+    'zh-cn': {
+      // Menu items
+      'Home': '主页',
+      'Content': '内容',
+      'Subscribers': '订阅者',
+      'Cloud Pages': '云页面',
+      'Reporting': '报告',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': '内容生成器',
+      'Contact Builder': '联系人生成器',
+      'Admin': '管理',
+      // UI Labels
+      'editMenuItems': '编辑菜单项',
+      'customLink': '自定义链接',
+      'appearance': '外观',
+      'language': '语言',
+      'linkName': '链接名称',
+      'linkUrl': '链接URL',
+      'accentColor': '强调色',
+      'textAlignment': '文本对齐',
+      'textSize': '文本大小 (px)',
+      'fontWeight': '字体粗细',
+      'menuLanguage': '菜单语言',
+      'addCustomLink': '添加自定义链接',
+      'enterLinkName': '输入链接名称'
+    },
+    'zh-tw': {
+      // Menu items
+      'Home': '首頁',
+      'Content': '內容',
+      'Subscribers': '訂閱者',
+      'Cloud Pages': '雲端頁面',
+      'Reporting': '報告',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': '內容產生器',
+      'Contact Builder': '聯絡人產生器',
+      'Admin': '管理',
+      // UI Labels
+      'editMenuItems': '編輯選單項目',
+      'customLink': '自訂連結',
+      'appearance': '外觀',
+      'language': '語言',
+      'linkName': '連結名稱',
+      'linkUrl': '連結URL',
+      'accentColor': '強調色',
+      'textAlignment': '文字對齊',
+      'textSize': '文字大小 (px)',
+      'fontWeight': '字體粗細',
+      'menuLanguage': '選單語言',
+      'addCustomLink': '新增自訂連結',
+      'enterLinkName': '輸入連結名稱'
+    },
+    ar: {
+      // Menu items
+      'Home': 'الصفحة الرئيسية',
+      'Content': 'المحتوى',
+      'Subscribers': 'المشتركون',
+      'Cloud Pages': 'صفحات السحابة',
+      'Reporting': 'التقارير',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'منشئ المحتوى',
+      'Contact Builder': 'منشئ جهات الاتصال',
+      'Admin': 'الإدارة',
+      // UI Labels
+      'editMenuItems': 'تحرير عناصر القائمة',
+      'customLink': 'رابط مخصص',
+      'appearance': 'المظهر',
+      'language': 'اللغة',
+      'linkName': 'اسم الرابط',
+      'linkUrl': 'عنوان URL للرابط',
+      'accentColor': 'لون التمييز',
+      'textAlignment': 'محاذاة النص',
+      'textSize': 'حجم النص (px)',
+      'fontWeight': 'سمك الخط',
+      'menuLanguage': 'لغة القائمة',
+      'addCustomLink': 'إضافة رابط مخصص',
+      'enterLinkName': 'أدخل اسم الرابط'
+    },
+    hi: {
+      // Menu items
+      'Home': 'होम',
+      'Content': 'सामग्री',
+      'Subscribers': 'सब्सक्राइबर्स',
+      'Cloud Pages': 'क्लाउड पेज',
+      'Reporting': 'रिपोर्टिंग',
+      'Automation Studio': 'ऑटोमेशन स्टूडियो',
+      'Journey Builder': 'जर्नी बिल्डर',
+      'Content Builder': 'कंटेंट बिल्डर',
+      'Contact Builder': 'कॉन्टैक्ट बिल्डर',
+      'Admin': 'व्यवस्थापक',
+      // UI Labels
+      'editMenuItems': 'मेनू आइटम संपादित करें',
+      'customLink': 'कस्टम लिंक',
+      'appearance': 'रूप',
+      'language': 'भाषा',
+      'linkName': 'लिंक नाम',
+      'linkUrl': 'लिंक URL',
+      'accentColor': 'एक्सेंट रंग',
+      'textAlignment': 'टेक्स्ट संरेखण',
+      'textSize': 'टेक्स्ट आकार (px)',
+      'fontWeight': 'फ़ॉन्ट वज़न',
+      'menuLanguage': 'मेनू भाषा',
+      'addCustomLink': 'कस्टम लिंक जोड़ें',
+      'enterLinkName': 'लिंक नाम दर्ज करें'
+    },
+    th: {
+      // Menu items
+      'Home': 'หน้าแรก',
+      'Content': 'เนื้อหา',
+      'Subscribers': 'ผู้สมัครสมาชิก',
+      'Cloud Pages': 'หน้าคลาวด์',
+      'Reporting': 'รายงาน',
+      'Automation Studio': 'Automation Studio',
+      'Journey Builder': 'Journey Builder',
+      'Content Builder': 'ตัวสร้างเนื้อหา',
+      'Contact Builder': 'ตัวสร้างผู้ติดต่อ',
+      'Admin': 'ผู้ดูแลระบบ',
+      // UI Labels
+      'editMenuItems': 'แก้ไขรายการเมนู',
+      'customLink': 'ลิงก์กำหนดเอง',
+      'appearance': 'รูปลักษณ์',
+      'language': 'ภาษา',
+      'linkName': 'ชื่อลิงก์',
+      'linkUrl': 'URL ลิงก์',
+      'accentColor': 'สีเน้น',
+      'textAlignment': 'การจัดแนวข้อความ',
+      'textSize': 'ขนาดข้อความ (px)',
+      'fontWeight': 'ความหนาของฟอนต์',
+      'menuLanguage': 'ภาษาเมนู',
+      'addCustomLink': 'เพิ่มลิงก์กำหนดเอง',
+      'enterLinkName': 'ป้อนชื่อลิงก์'
+    }
+  };
+
+  // Store original English text of menu items for translation reference
+  const menuItemMapping = new Map();
+
+  // Function to initialize menu item mapping
+  function initializeMenuMapping() {
+    const menuItems = Array.from(mainMenu.querySelectorAll('.sf-nav-item'));
+    menuItems.forEach(item => {
+      const link = item.querySelector('a');
+      if (link) {
+        const text = link.textContent.trim();
+        const href = link.getAttribute('href');
+        
+        // Check if this is a custom link
+        const isCustom = customLinks.some(cl => 
+          cl.text === text && cl.href === href);
+        
+        if (!isCustom) {
+          // Store the original English text with the href as key
+          menuItemMapping.set(href, text);
+        }
+      }
+    });
+  }
+
+  // Function to translate menu items
+  function translateMenuItems(language) {
+    const menuItems = Array.from(mainMenu.querySelectorAll('.sf-nav-item'));
+    const targetTranslations = translations[language] || translations['en'];
+    
+    menuItems.forEach(item => {
+      const link = item.querySelector('a');
+      if (link) {
+        const href = link.getAttribute('href');
+        const currentText = link.textContent.trim();
+        
+        // Check if this is a custom link
+        const isCustom = customLinks.some(cl => cl.href === href);
+        
+        if (!isCustom) {
+          // Get the original English text for this menu item
+          const originalEnglishText = menuItemMapping.get(href);
+          
+          if (originalEnglishText && targetTranslations[originalEnglishText]) {
+            // Translate from English to target language
+            link.textContent = targetTranslations[originalEnglishText];
+          } else {
+            // Fallback: try to reverse translate current text to English first
+            let englishKey = null;
+            
+            // Search through all languages to find which one has current text
+            for (const [langCode, langTranslations] of Object.entries(translations)) {
+              for (const [enText, translatedText] of Object.entries(langTranslations)) {
+                if (translatedText === currentText) {
+                  englishKey = enText;
+                  break;
+                }
+              }
+              if (englishKey) break;
+            }
+            
+            // If we found the English key, translate it to target language
+            if (englishKey && targetTranslations[englishKey]) {
+              link.textContent = targetTranslations[englishKey];
+              // Update mapping
+              menuItemMapping.set(href, englishKey);
+            }
+          }
+        }
+      }
+    });
+    
+    // Also update the sortable options if they exist
+    updateSortableTranslations(language);
+    
+    // Update UI text
+    updateUIText(language);
+  }
+  
+  // Function to update all UI text elements
+  function updateUIText(language) {
+    const targetTranslations = translations[language] || translations['en'];
+    
+    // Update all elements with data-i18n attribute
+    document.querySelectorAll('[data-i18n]').forEach(element => {
+      const key = element.getAttribute('data-i18n');
+      if (targetTranslations[key]) {
+        element.textContent = targetTranslations[key];
+      }
+    });
+    
+    // Update placeholders
+    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+      const key = element.getAttribute('data-i18n-placeholder');
+      if (targetTranslations[key]) {
+        element.placeholder = targetTranslations[key];
+      }
+    });
+  }
+
+  // Function to update sortable options with translations
+  function updateSortableTranslations(language) {
+    const sortableItems = Array.from(sortableOptions.querySelectorAll('li'));
+    const targetTranslations = translations[language] || translations['en'];
+    
+    sortableItems.forEach(item => {
+      const textElement = item.querySelector('span');
+      const href = item.getAttribute('data-href');
+      const isCustom = item.getAttribute('data-custom') === 'true';
+      
+      if (textElement && !isCustom && href) {
+        const originalEnglishText = menuItemMapping.get(href);
+        
+        if (originalEnglishText && targetTranslations[originalEnglishText]) {
+          textElement.textContent = targetTranslations[originalEnglishText];
+        }
+      }
+    });
+  }
+
+  // Language selection functionality
+  function loadLanguage() {
+    const savedLanguage = localStorage.getItem('sfmcLanguage') || 'en';
+    languageSelect.value = savedLanguage;
+    
+    // Initialize menu mapping on first load
+    if (menuItemMapping.size === 0) {
+      // If mapping is empty, capture current menu as English baseline
+      const menuItems = Array.from(mainMenu.querySelectorAll('.sf-nav-item'));
+      menuItems.forEach(item => {
+        const link = item.querySelector('a');
+        if (link) {
+          const text = link.textContent.trim();
+          const href = link.getAttribute('href');
+          const isCustom = customLinks.some(cl => cl.href === href);
+          
+          if (!isCustom) {
+            // Try to find this text in any language to get English key
+            let englishKey = text;
+            
+            for (const [langCode, langTranslations] of Object.entries(translations)) {
+              for (const [enText, translatedText] of Object.entries(langTranslations)) {
+                if (translatedText === text) {
+                  englishKey = enText;
+                  break;
+                }
+              }
+              if (englishKey !== text) break;
+            }
+            
+            menuItemMapping.set(href, englishKey);
+          }
+        }
+      });
+    }
+    
+    translateMenuItems(savedLanguage);
+    updateUIText(savedLanguage);
+  }
+
+  function applyLanguage(language) {
+    translateMenuItems(language);
+    updateUIText(language);
+  }
+
+  function saveLanguage(language) {
+    localStorage.setItem('sfmcLanguage', language);
+  }
+
+  // Handle language selection changes
+  languageSelect.addEventListener('change', function(e) {
+    const selectedLanguage = e.target.value;
+    applyLanguage(selectedLanguage);
+    saveLanguage(selectedLanguage);
+  });
+
+  // Initialize language
+  loadLanguage();
 
   // Apply text settings to all existing menu items
   function applySettingsToExistingMenuItems() {
     const currentAlignment = localStorage.getItem('sfmcTextAlignment') || 'left';
     const currentSize = localStorage.getItem('sfmcTextSize') || '16';
+    const currentWeight = localStorage.getItem('sfmcFontWeight') || '400';
     
     const menuLinks = document.querySelectorAll('.sf-nav-link');
     menuLinks.forEach(link => {
       link.style.textAlign = currentAlignment;
       link.style.fontSize = currentSize + 'px';
+      link.style.fontWeight = currentWeight;
       
       if (currentAlignment === 'center') {
         link.style.justifyContent = 'center';
@@ -245,9 +1009,11 @@ document.addEventListener('DOMContentLoaded', function() {
   function applyTextSettingsToLink(linkElement) {
     const currentAlignment = localStorage.getItem('sfmcTextAlignment') || 'left';
     const currentSize = localStorage.getItem('sfmcTextSize') || '16';
+    const currentWeight = localStorage.getItem('sfmcFontWeight') || '400';
     
     linkElement.style.textAlign = currentAlignment;
     linkElement.style.fontSize = currentSize + 'px';
+    linkElement.style.fontWeight = currentWeight;
     
     if (currentAlignment === 'center') {
       linkElement.style.justifyContent = 'center';
