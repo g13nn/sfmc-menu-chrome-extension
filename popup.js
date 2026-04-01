@@ -294,8 +294,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'Suscriptores',
       'Cloud Pages': 'Páginas en la nube',
       'Reporting': 'Informes',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': 'Estudio de automatización',
+      'Journey Builder': 'Constructor de recorridos',
       'Content Builder': 'Generador de contenido',
       'Contact Builder': 'Generador de contactos',
       'Admin': 'Administración',
@@ -321,8 +321,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'Assinantes',
       'Cloud Pages': 'Páginas na nuvem',
       'Reporting': 'Relatórios',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': 'Estúdio de automação',
+      'Journey Builder': 'Construtor de jornadas',
       'Content Builder': 'Criador de conteúdo',
       'Contact Builder': 'Criador de contatos',
       'Admin': 'Administração',
@@ -348,8 +348,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'Abonnés',
       'Cloud Pages': 'Pages cloud',
       'Reporting': 'Rapports',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': 'Studio d\'automatisation',
+      'Journey Builder': 'Générateur de parcours',
       'Content Builder': 'Générateur de contenu',
       'Contact Builder': 'Générateur de contacts',
       'Admin': 'Administration',
@@ -375,10 +375,10 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'Abonnenten',
       'Cloud Pages': 'Cloud-Seiten',
       'Reporting': 'Berichte',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
-      'Content Builder': 'Content Builder',
-      'Contact Builder': 'Contact Builder',
+      'Automation Studio': 'Automatisierungsstudio',
+      'Journey Builder': 'Journey-Builder',
+      'Content Builder': 'Content-Builder',
+      'Contact Builder': 'Contact-Builder',
       'Admin': 'Verwaltung',
       // UI Labels
       'editMenuItems': 'Menüelemente bearbeiten',
@@ -402,8 +402,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'Iscritti',
       'Cloud Pages': 'Pagine cloud',
       'Reporting': 'Report',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': 'Studio di automazione',
+      'Journey Builder': 'Generatore di percorsi',
       'Content Builder': 'Generatore di contenuti',
       'Contact Builder': 'Generatore di contatti',
       'Admin': 'Amministrazione',
@@ -429,10 +429,10 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'Abonnees',
       'Cloud Pages': 'Cloudpagina\'s',
       'Reporting': 'Rapporten',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
-      'Content Builder': 'Content Builder',
-      'Contact Builder': 'Contact Builder',
+      'Automation Studio': 'Automatiseringsstudio',
+      'Journey Builder': 'Reisopbouwer',
+      'Content Builder': 'Contentbouwer',
+      'Contact Builder': 'Contactbouwer',
       'Admin': 'Beheer',
       // UI Labels
       'editMenuItems': 'Menu-items bewerken',
@@ -456,8 +456,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'Subskrybenci',
       'Cloud Pages': 'Strony w chmurze',
       'Reporting': 'Raporty',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': 'Studio automatyzacji',
+      'Journey Builder': 'Kreator ścieżek',
       'Content Builder': 'Kreator treści',
       'Contact Builder': 'Kreator kontaktów',
       'Admin': 'Administracja',
@@ -483,8 +483,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'Prenumeranter',
       'Cloud Pages': 'Molnsidor',
       'Reporting': 'Rapporter',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': 'Automationsstudio',
+      'Journey Builder': 'Resebyggare',
       'Content Builder': 'Innehållsverktyg',
       'Contact Builder': 'Kontaktverktyg',
       'Admin': 'Administration',
@@ -510,8 +510,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'Abonnenter',
       'Cloud Pages': 'Cloud-sider',
       'Reporting': 'Rapporter',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': 'Automationsstudie',
+      'Journey Builder': 'Rejsebygger',
       'Content Builder': 'Indholdsværktøj',
       'Contact Builder': 'Kontaktværktøj',
       'Admin': 'Administration',
@@ -537,8 +537,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'Abonnenter',
       'Cloud Pages': 'Skysider',
       'Reporting': 'Rapporter',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': 'Automatiseringsstudio',
+      'Journey Builder': 'Reisebygger',
       'Content Builder': 'Innholdsverktøy',
       'Contact Builder': 'Kontaktverktøy',
       'Admin': 'Administrasjon',
@@ -564,8 +564,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'Tilaajat',
       'Cloud Pages': 'Pilvesivut',
       'Reporting': 'Raportit',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': 'Automaatiostudio',
+      'Journey Builder': 'Matkarakentaja',
       'Content Builder': 'Sisällönluoja',
       'Contact Builder': 'Yhteystietojen luoja',
       'Admin': 'Hallinta',
@@ -591,8 +591,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'Подписчики',
       'Cloud Pages': 'Облачные страницы',
       'Reporting': 'Отчеты',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': 'Студия автоматизации',
+      'Journey Builder': 'Конструктор путей',
       'Content Builder': 'Конструктор контента',
       'Contact Builder': 'Конструктор контактов',
       'Admin': 'Администрирование',
@@ -618,8 +618,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': '購読者',
       'Cloud Pages': 'クラウドページ',
       'Reporting': 'レポート',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': 'オートメーションスタジオ',
+      'Journey Builder': 'ジャーニービルダー',
       'Content Builder': 'コンテンツビルダー',
       'Contact Builder': 'コンタクトビルダー',
       'Admin': '管理',
@@ -645,8 +645,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': '구독자',
       'Cloud Pages': '클라우드 페이지',
       'Reporting': '보고',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': '자동화 스튜디오',
+      'Journey Builder': '여정 빌더',
       'Content Builder': '콘텐츠 빌더',
       'Contact Builder': '연락처 빌더',
       'Admin': '관리',
@@ -672,8 +672,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': '订阅者',
       'Cloud Pages': '云页面',
       'Reporting': '报告',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': '自动化工作室',
+      'Journey Builder': '旅程构建器',
       'Content Builder': '内容生成器',
       'Contact Builder': '联系人生成器',
       'Admin': '管理',
@@ -699,8 +699,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': '訂閱者',
       'Cloud Pages': '雲端頁面',
       'Reporting': '報告',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': '自動化工作室',
+      'Journey Builder': '旅程建立器',
       'Content Builder': '內容產生器',
       'Contact Builder': '聯絡人產生器',
       'Admin': '管理',
@@ -726,8 +726,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'المشتركون',
       'Cloud Pages': 'صفحات السحابة',
       'Reporting': 'التقارير',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': 'استوديو الأتمتة',
+      'Journey Builder': 'منشئ الرحلات',
       'Content Builder': 'منشئ المحتوى',
       'Contact Builder': 'منشئ جهات الاتصال',
       'Admin': 'الإدارة',
@@ -753,8 +753,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'सब्सक्राइबर्स',
       'Cloud Pages': 'क्लाउड पेज',
       'Reporting': 'रिपोर्टिंग',
-      'Automation Studio': 'ऑटोमेशन स्टूडियो',
-      'Journey Builder': 'जर्नी बिल्डर',
+      'Automation Studio': 'स्वचालन स्टूडियो',
+      'Journey Builder': 'यात्रा निर्माता',
       'Content Builder': 'कंटेंट बिल्डर',
       'Contact Builder': 'कॉन्टैक्ट बिल्डर',
       'Admin': 'व्यवस्थापक',
@@ -780,8 +780,8 @@ document.addEventListener('DOMContentLoaded', function() {
       'Subscribers': 'ผู้สมัครสมาชิก',
       'Cloud Pages': 'หน้าคลาวด์',
       'Reporting': 'รายงาน',
-      'Automation Studio': 'Automation Studio',
-      'Journey Builder': 'Journey Builder',
+      'Automation Studio': 'สตูดิโออัตโนมัติ',
+      'Journey Builder': 'ตัวสร้างเส้นทาง',
       'Content Builder': 'ตัวสร้างเนื้อหา',
       'Contact Builder': 'ตัวสร้างผู้ติดต่อ',
       'Admin': 'ผู้ดูแลระบบ',
@@ -807,6 +807,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
   // Function to initialize menu item mapping
   function initializeMenuMapping() {
+    console.log('Initializing menu item mapping...');
     const menuItems = Array.from(mainMenu.querySelectorAll('.sf-nav-item'));
     menuItems.forEach(item => {
       const link = item.querySelector('a');
@@ -820,10 +821,13 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (!isCustom) {
           // Store the original English text with the href as key
+          // At this point, menu is in English (default from HTML)
           menuItemMapping.set(href, text);
+          console.log('Mapped', href, 'to English key:', text);
         }
       }
     });
+    console.log('Menu mapping initialized with', menuItemMapping.size, 'items');
   }
 
   // Function to translate menu items
@@ -883,20 +887,33 @@ document.addEventListener('DOMContentLoaded', function() {
   // Function to update all UI text elements
   function updateUIText(language) {
     const targetTranslations = translations[language] || translations['en'];
+    console.log('Updating UI text to language:', language);
     
     // Update all elements with data-i18n attribute
-    document.querySelectorAll('[data-i18n]').forEach(element => {
+    const elementsWithI18n = document.querySelectorAll('[data-i18n]');
+    console.log('Found', elementsWithI18n.length, 'elements with data-i18n');
+    
+    elementsWithI18n.forEach(element => {
       const key = element.getAttribute('data-i18n');
       if (targetTranslations[key]) {
         element.textContent = targetTranslations[key];
+        console.log('Translated', key, 'to', targetTranslations[key]);
+      } else {
+        console.warn('No translation found for key:', key, 'in language:', language);
       }
     });
     
     // Update placeholders
-    document.querySelectorAll('[data-i18n-placeholder]').forEach(element => {
+    const elementsWithPlaceholder = document.querySelectorAll('[data-i18n-placeholder]');
+    console.log('Found', elementsWithPlaceholder.length, 'elements with data-i18n-placeholder');
+    
+    elementsWithPlaceholder.forEach(element => {
       const key = element.getAttribute('data-i18n-placeholder');
       if (targetTranslations[key]) {
         element.placeholder = targetTranslations[key];
+        console.log('Translated placeholder', key, 'to', targetTranslations[key]);
+      } else {
+        console.warn('No translation found for placeholder key:', key, 'in language:', language);
       }
     });
   }
@@ -905,6 +922,7 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateSortableTranslations(language) {
     const sortableItems = Array.from(sortableOptions.querySelectorAll('li'));
     const targetTranslations = translations[language] || translations['en'];
+    console.log('Updating sortable translations to language:', language, 'for', sortableItems.length, 'items');
     
     sortableItems.forEach(item => {
       const textElement = item.querySelector('span');
@@ -916,6 +934,9 @@ document.addEventListener('DOMContentLoaded', function() {
         
         if (originalEnglishText && targetTranslations[originalEnglishText]) {
           textElement.textContent = targetTranslations[originalEnglishText];
+          console.log('Translated sortable item:', originalEnglishText, 'to', targetTranslations[originalEnglishText]);
+        } else {
+          console.warn('Could not translate sortable item with href:', href, 'originalText:', originalEnglishText);
         }
       }
     });
@@ -924,39 +945,22 @@ document.addEventListener('DOMContentLoaded', function() {
   // Language selection functionality
   function loadLanguage() {
     const savedLanguage = localStorage.getItem('sfmcLanguage') || 'en';
-    languageSelect.value = savedLanguage;
+    console.log('Loading saved language:', savedLanguage);
     
-    // Initialize menu mapping on first load
-    if (menuItemMapping.size === 0) {
-      // If mapping is empty, capture current menu as English baseline
-      const menuItems = Array.from(mainMenu.querySelectorAll('.sf-nav-item'));
-      menuItems.forEach(item => {
-        const link = item.querySelector('a');
-        if (link) {
-          const text = link.textContent.trim();
-          const href = link.getAttribute('href');
-          const isCustom = customLinks.some(cl => cl.href === href);
-          
-          if (!isCustom) {
-            // Try to find this text in any language to get English key
-            let englishKey = text;
-            
-            for (const [langCode, langTranslations] of Object.entries(translations)) {
-              for (const [enText, translatedText] of Object.entries(langTranslations)) {
-                if (translatedText === text) {
-                  englishKey = enText;
-                  break;
-                }
-              }
-              if (englishKey !== text) break;
-            }
-            
-            menuItemMapping.set(href, englishKey);
-          }
-        }
-      });
+    if (languageSelect) {
+      languageSelect.value = savedLanguage;
+    } else {
+      console.error('Language select element not found!');
+      return;
     }
     
+    // Menu mapping should already be initialized, but check
+    if (menuItemMapping.size === 0) {
+      console.warn('Menu mapping not initialized, initializing now...');
+      initializeMenuMapping();
+    }
+    
+    // Apply the saved language
     translateMenuItems(savedLanguage);
     updateUIText(savedLanguage);
   }
@@ -967,17 +971,40 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   function saveLanguage(language) {
+    console.log('Saving language to localStorage:', language);
     localStorage.setItem('sfmcLanguage', language);
+    
+    // Verify save
+    const saved = localStorage.getItem('sfmcLanguage');
+    console.log('Language saved and verified:', saved);
+    
+    if (saved !== language) {
+      console.error('Language save failed! Expected:', language, 'Got:', saved);
+    }
   }
 
   // Handle language selection changes
   languageSelect.addEventListener('change', function(e) {
     const selectedLanguage = e.target.value;
+    console.log('Language changed to:', selectedLanguage);
     applyLanguage(selectedLanguage);
     saveLanguage(selectedLanguage);
+    
+    // Verify it was saved
+    setTimeout(() => {
+      const verifyLanguage = localStorage.getItem('sfmcLanguage');
+      console.log('Verified saved language:', verifyLanguage);
+    }, 100);
   });
 
   // Initialize language
+  console.log('Initializing language system...');
+  
+  // IMPORTANT: Initialize menu mapping FIRST before loading saved language
+  // This ensures we capture the original English keys before any translation
+  initializeMenuMapping();
+  
+  // Now load and apply the saved language
   loadLanguage();
 
   // Apply text settings to all existing menu items
@@ -1093,6 +1120,11 @@ document.addEventListener('DOMContentLoaded', function() {
       // Populate sortable options based on current menu
       populateSortableOptions();
       sortableOptionsPopulated = true;
+      
+      // Apply current language to sortable list and UI
+      const currentLanguage = localStorage.getItem('sfmcLanguage') || 'en';
+      updateSortableTranslations(currentLanguage);
+      updateUIText(currentLanguage);
     }
   });
   
