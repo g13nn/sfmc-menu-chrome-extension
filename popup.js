@@ -1,23 +1,166 @@
-document.addEventListener('DOMContentLoaded', function() {
-  // Test localStorage availability
+document.addEventListener('DOMContentLoaded', async function() {
+  const hasChromeSyncStorage = !!(chrome && chrome.storage && chrome.storage.sync);
+
+  function safeJsonParse(value) {
+    if (typeof value !== 'string') return value;
+    try {
+      return JSON.parse(value);
+    } catch {
+      return value;
+    }
+  }
+
+  function safeJsonStringify(value) {
+    if (typeof value === 'string') return value;
+    return JSON.stringify(value);
+  }
+
+  const storage = {
+    async get(key) {
+      if (!hasChromeSyncStorage) {
+        return safeJsonParse(localStorage.getItem(key));
+      }
+
+      return new Promise(resolve => {
+        chrome.storage.sync.get([key], result => {
+          if (chrome.runtime && chrome.runtime.lastError) {
+            resolve(safeJsonParse(localStorage.getItem(key)));
+            return;
+          }
+          resolve(result[key]);
+        });
+      });
+    },
+    async set(key, value) {
+      if (!hasChromeSyncStorage) {
+        localStorage.setItem(key, safeJsonStringify(value));
+        return;
+      }
+
+      return new Promise(resolve => {
+        chrome.storage.sync.set({ [key]: value }, () => {
+          if (chrome.runtime && chrome.runtime.lastError) {
+            localStorage.setItem(key, safeJsonStringify(value));
+          }
+          resolve();
+        });
+      });
+    },
+    async getAll() {
+      if (!hasChromeSyncStorage) {
+        const values = {};
+        for (let i = 0; i < localStorage.length; i++) {
+          const key = localStorage.key(i);
+          values[key] = safeJsonParse(localStorage.getItem(key));
+        }
+        return values;
+      }
+
+      return new Promise(resolve => {
+        chrome.storage.sync.get(null, result => {
+          if (chrome.runtime && chrome.runtime.lastError) {
+            const values = {};
+            for (let i = 0; i < localStorage.length; i++) {
+              const key = localStorage.key(i);
+              values[key] = safeJsonParse(localStorage.getItem(key));
+            }
+            resolve(values);
+            return;
+          }
+          resolve(result || {});
+        });
+      });
+    },
+    async setMany(values) {
+      if (!hasChromeSyncStorage) {
+        Object.entries(values || {}).forEach(([key, value]) => {
+          localStorage.setItem(key, safeJsonStringify(value));
+        });
+        return;
+      }
+
+      return new Promise(resolve => {
+        chrome.storage.sync.set(values, () => {
+          if (chrome.runtime && chrome.runtime.lastError) {
+            Object.entries(values || {}).forEach(([key, value]) => {
+              localStorage.setItem(key, safeJsonStringify(value));
+            });
+          }
+          resolve();
+        });
+      });
+    }
+  };
+
+  const STORAGE_KEYS = {
+    customLinks: 'sfmcCustomLinks',
+    accentColor: 'sfmcAccentColor',
+    textAlignment: 'sfmcTextAlignment',
+    textSize: 'sfmcTextSize',
+    fontWeight: 'sfmcFontWeight',
+    language: 'sfmcLanguage',
+    menuOrder: 'sfmcMenuOrder',
+    themeMode: 'sfmcThemeMode',
+    fontFamily: 'sfmcFontFamily'
+  };
+
+  const FONT_MAP = {
+    salesforce: "'Salesforce Sans', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    system: "-apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif",
+    arial: "Arial, Helvetica, sans-serif",
+    georgia: "Georgia, 'Times New Roman', serif",
+    monospace: "'Courier New', Courier, monospace"
+  };
+
+  function loadGoogleFont(fontName) {
+    const sanitized = (fontName || '').trim();
+    if (!sanitized) return;
+
+    const id = `sfmc-google-font-${sanitized.toLowerCase().replace(/\s+/g, '-')}`;
+    if (document.getElementById(id)) return;
+
+    const link = document.createElement('link');
+    link.id = id;
+    link.rel = 'stylesheet';
+    link.href = `https://fonts.googleapis.com/css2?family=${encodeURIComponent(sanitized).replace(/%20/g, '+')}:wght@100;300;400;500;600;700;800;900&display=swap`;
+    document.head.appendChild(link);
+  }
+
+  function applyFontFamilySelection(value) {
+    const selected = (value || 'salesforce').trim();
+    if (FONT_MAP[selected]) {
+      document.documentElement.style.setProperty('--menu-font-family', FONT_MAP[selected]);
+      return;
+    }
+
+    loadGoogleFont(selected);
+    document.documentElement.style.setProperty('--menu-font-family', `'${selected}', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif`);
+  }
+
+  function applyThemeMode(mode) {
+    const normalized = (mode || 'system').toLowerCase();
+    if (normalized === 'light' || normalized === 'dark') {
+      document.documentElement.setAttribute('data-theme-mode', normalized);
+    } else {
+      document.documentElement.removeAttribute('data-theme-mode');
+    }
+  }
+  // Migrate previous localStorage settings to chrome.storage.sync once.
+  await migrateLocalStorageToChromeSync();
+
+  // Test storage availability
   console.log('=== SFMC Menu Extension Loading ===');
   try {
-    const testKey = 'sfmc-test-' + Date.now();
-    localStorage.setItem(testKey, 'test');
-    const testValue = localStorage.getItem(testKey);
-    localStorage.removeItem(testKey);
-    
-    if (testValue === 'test') {
-      console.log('✓ localStorage is working');
+    if (hasChromeSyncStorage) {
+      chrome.storage.sync.get(['sfmcLanguage'], result => {
+        const savedLang = result[STORAGE_KEYS.language];
+        console.log('Current saved language in chrome.storage.sync:', savedLang || '(not set - will default to en)');
+      });
     } else {
-      console.error('✗ localStorage test failed');
+      console.log('chrome.storage.sync unavailable, using localStorage fallback');
     }
-    
-    // Log current saved language
-    const savedLang = localStorage.getItem('sfmcLanguage');
-    console.log('Current saved language in localStorage:', savedLang || '(not set - will default to en)');
   } catch (error) {
-    console.error('✗ localStorage error:', error);
+    console.error('✗ storage error:', error);
   }
   
   // Get DOM elements
@@ -39,6 +182,8 @@ document.addEventListener('DOMContentLoaded', function() {
   const fontWeight = document.getElementById('font-weight');
   const fontWeightValue = document.getElementById('font-weight-value');
   const languageSelect = document.getElementById('language-select');
+  const themeMode = document.getElementById('theme-mode');
+  const fontFamily = document.getElementById('font-family');
   
   // Default accent color
   const DEFAULT_ACCENT_COLOR = '#0176d3';
@@ -50,24 +195,24 @@ document.addEventListener('DOMContentLoaded', function() {
   let customLinks = [];
   
   // Load custom links from local storage
-  function loadCustomLinks() {
-    const savedCustomLinks = localStorage.getItem('sfmcCustomLinks');
+  async function loadCustomLinks() {
+    const savedCustomLinks = await storage.get(STORAGE_KEYS.customLinks);
     if (savedCustomLinks) {
-      customLinks = JSON.parse(savedCustomLinks);
+      customLinks = Array.isArray(savedCustomLinks) ? savedCustomLinks : JSON.parse(savedCustomLinks);
     }
   }
   
   // Save custom links to local storage
-  function saveCustomLinks() {
-    localStorage.setItem('sfmcCustomLinks', JSON.stringify(customLinks));
+  async function saveCustomLinks() {
+    await storage.set(STORAGE_KEYS.customLinks, customLinks);
   }
   
   // Load custom links on startup
-  loadCustomLinks();
+  await loadCustomLinks();
   
   // Load and apply saved accent color
-  function loadSavedAccentColor() {
-    const savedColor = localStorage.getItem('sfmcAccentColor');
+  async function loadSavedAccentColor() {
+    const savedColor = await storage.get(STORAGE_KEYS.accentColor);
     if (savedColor) {
       applyAccentColor(savedColor);
       colorPicker.value = savedColor;
@@ -119,12 +264,12 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // Save accent color to local storage
-  function saveAccentColor(color) {
-    localStorage.setItem('sfmcAccentColor', color);
+  async function saveAccentColor(color) {
+    await storage.set(STORAGE_KEYS.accentColor, color);
   }
   
   // Initialize color picker with saved value or default
-  loadSavedAccentColor();
+  await loadSavedAccentColor();
 
   // Apply fixed color to header icon
   applyHeaderIconColor();
@@ -142,9 +287,54 @@ document.addEventListener('DOMContentLoaded', function() {
     saveAccentColor(newColor);
   });
 
+  async function loadThemeMode() {
+    const savedTheme = await storage.get(STORAGE_KEYS.themeMode);
+    const currentTheme = savedTheme || 'system';
+    applyThemeMode(currentTheme);
+    if (themeMode) {
+      themeMode.value = currentTheme;
+    }
+  }
+
+  async function saveThemeMode(value) {
+    await storage.set(STORAGE_KEYS.themeMode, value);
+  }
+
+  themeMode.addEventListener('change', function(e) {
+    const selected = e.target.value;
+    applyThemeMode(selected);
+    saveThemeMode(selected);
+  });
+
+  async function loadFontFamily() {
+    const savedFont = await storage.get(STORAGE_KEYS.fontFamily);
+    const selectedFont = savedFont || 'salesforce';
+    if (fontFamily) {
+      const optionExists = Array.from(fontFamily.options).some(o => o.value === selectedFont);
+      if (!optionExists) {
+        const customOption = document.createElement('option');
+        customOption.value = selectedFont;
+        customOption.textContent = `${selectedFont} (Google)`;
+        fontFamily.appendChild(customOption);
+      }
+      fontFamily.value = selectedFont;
+    }
+    applyFontFamilySelection(selectedFont);
+  }
+
+  async function saveFontFamily(value) {
+    await storage.set(STORAGE_KEYS.fontFamily, value);
+  }
+
+  fontFamily.addEventListener('change', function(e) {
+    const selected = e.target.value;
+    applyFontFamilySelection(selected);
+    saveFontFamily(selected);
+  });
+
   // Text alignment functionality
-  function loadTextAlignment() {
-    const savedAlignment = localStorage.getItem('sfmcTextAlignment') || 'left';
+  async function loadTextAlignment() {
+    const savedAlignment = (await storage.get(STORAGE_KEYS.textAlignment)) || 'left';
     setActiveAlignmentButton(savedAlignment);
     applyTextAlignment(savedAlignment);
   }
@@ -181,13 +371,13 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  function saveTextAlignment(alignment) {
-    localStorage.setItem('sfmcTextAlignment', alignment);
+  async function saveTextAlignment(alignment) {
+    await storage.set(STORAGE_KEYS.textAlignment, alignment);
   }
 
   // Text size functionality  
-  function loadTextSize() {
-    const savedSize = localStorage.getItem('sfmcTextSize') || '16';
+  async function loadTextSize() {
+    const savedSize = (await storage.get(STORAGE_KEYS.textSize)) || '16';
     textSize.value = savedSize;
     applyTextSize(savedSize);
   }
@@ -201,8 +391,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  function saveTextSize(size) {
-    localStorage.setItem('sfmcTextSize', size);
+  async function saveTextSize(size) {
+    await storage.set(STORAGE_KEYS.textSize, size);
   }
 
   // Handle text alignment changes
@@ -239,8 +429,8 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Font weight functionality
-  function loadFontWeight() {
-    const savedWeight = localStorage.getItem('sfmcFontWeight') || '400';
+  async function loadFontWeight() {
+    const savedWeight = (await storage.get(STORAGE_KEYS.fontWeight)) || '400';
     fontWeight.value = savedWeight;
     fontWeightValue.textContent = savedWeight;
     applyFontWeight(savedWeight);
@@ -255,8 +445,8 @@ document.addEventListener('DOMContentLoaded', function() {
     });
   }
 
-  function saveFontWeight(weight) {
-    localStorage.setItem('sfmcFontWeight', weight);
+  async function saveFontWeight(weight) {
+    await storage.set(STORAGE_KEYS.fontWeight, weight);
   }
 
   // Handle font weight changes
@@ -272,9 +462,11 @@ document.addEventListener('DOMContentLoaded', function() {
   });
 
   // Initialize text settings
-  loadTextAlignment();
-  loadTextSize();
-  loadFontWeight();
+  await loadTextAlignment();
+  await loadTextSize();
+  await loadFontWeight();
+  await loadThemeMode();
+  await loadFontFamily();
 
   // ============================================
   // Language Translations
@@ -306,7 +498,24 @@ document.addEventListener('DOMContentLoaded', function() {
       'fontWeight': 'Font Weight',
       'menuLanguage': 'Menu Language',
       'addCustomLink': 'Add Custom Link',
-      'enterLinkName': 'Enter link name'
+      'enterLinkName': 'Enter link name',
+      'themeMode': 'Theme Mode',
+      'themeSystem': 'System',
+      'themeLight': 'Light',
+      'themeDark': 'Dark',
+      'fontFamily': 'Font Family',
+      'fontSalesforce': 'Salesforce Sans (Default)',
+      'fontSystem': 'System UI',
+      'fontArial': 'Arial',
+      'fontGeorgia': 'Georgia',
+      'fontMonospace': 'Monospace',
+      'searchGoogleFont': 'Search Google Font (e.g. Nunito)',
+      'applyGoogleFont': 'Apply Google Font',
+      'settingsBackup': 'Settings Backup',
+      'exportSettings': 'Export Settings',
+      'importSettings': 'Import Settings',
+      'shortcuts': 'Keyboard Shortcuts',
+      'shortcutsHelp': 'Press keys 1-9 to open the first 9 visible menu links.'
     },
     es: {
       // Menu items
@@ -964,10 +1173,10 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Language selection functionality
-  function loadLanguage() {
-    const savedLanguage = localStorage.getItem('sfmcLanguage') || 'en';
+  async function loadLanguage() {
+    const savedLanguage = (await storage.get(STORAGE_KEYS.language)) || 'en';
     console.log('=== Loading saved language:', savedLanguage, '===');
-    console.log('Available in localStorage:', localStorage.getItem('sfmcLanguage'));
+    console.log('Available in chrome.storage.sync:', savedLanguage);
     
     if (languageSelect) {
       languageSelect.value = savedLanguage;
@@ -997,22 +1206,20 @@ document.addEventListener('DOMContentLoaded', function() {
     updateUIText(language);
   }
 
-  function saveLanguage(language) {
-    console.log('Saving language to localStorage:', language);
+  async function saveLanguage(language) {
+    console.log('Saving language to chrome.storage.sync:', language);
     try {
-      localStorage.setItem('sfmcLanguage', language);
-      
-      // Verify save
-      const saved = localStorage.getItem('sfmcLanguage');
+      await storage.set(STORAGE_KEYS.language, language);
+      const saved = await storage.get(STORAGE_KEYS.language);
       console.log('Language saved and verified:', saved);
       
       if (saved !== language) {
         console.error('Language save failed! Expected:', language, 'Got:', saved);
       } else {
-        console.log('✓ Language successfully saved to localStorage');
+        console.log('✓ Language successfully saved to chrome.storage.sync');
       }
     } catch (error) {
-      console.error('Error saving language to localStorage:', error);
+      console.error('Error saving language to chrome.storage.sync:', error);
     }
   }
 
@@ -1024,8 +1231,8 @@ document.addEventListener('DOMContentLoaded', function() {
     saveLanguage(selectedLanguage);
     
     // Verify it was saved
-    setTimeout(() => {
-      const verifyLanguage = localStorage.getItem('sfmcLanguage');
+    setTimeout(async () => {
+      const verifyLanguage = await storage.get(STORAGE_KEYS.language);
       console.log('Verified saved language:', verifyLanguage);
     }, 100);
   });
@@ -1038,13 +1245,13 @@ document.addEventListener('DOMContentLoaded', function() {
   initializeMenuMapping();
   
   // Now load and apply the saved language
-  loadLanguage();
+  await loadLanguage();
 
   // Apply text settings to all existing menu items
-  function applySettingsToExistingMenuItems() {
-    const currentAlignment = localStorage.getItem('sfmcTextAlignment') || 'left';
-    const currentSize = localStorage.getItem('sfmcTextSize') || '16';
-    const currentWeight = localStorage.getItem('sfmcFontWeight') || '400';
+  async function applySettingsToExistingMenuItems() {
+    const currentAlignment = (await storage.get(STORAGE_KEYS.textAlignment)) || 'left';
+    const currentSize = (await storage.get(STORAGE_KEYS.textSize)) || '16';
+    const currentWeight = (await storage.get(STORAGE_KEYS.fontWeight)) || '400';
     
     const menuLinks = document.querySelectorAll('.sf-nav-link');
     menuLinks.forEach(link => {
@@ -1063,13 +1270,13 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Apply settings to existing menu items on load
-  applySettingsToExistingMenuItems();
+  await applySettingsToExistingMenuItems();
 
   // Helper function to apply text settings to a menu link element
-  function applyTextSettingsToLink(linkElement) {
-    const currentAlignment = localStorage.getItem('sfmcTextAlignment') || 'left';
-    const currentSize = localStorage.getItem('sfmcTextSize') || '16';
-    const currentWeight = localStorage.getItem('sfmcFontWeight') || '400';
+  async function applyTextSettingsToLink(linkElement) {
+    const currentAlignment = (await storage.get(STORAGE_KEYS.textAlignment)) || 'left';
+    const currentSize = (await storage.get(STORAGE_KEYS.textSize)) || '16';
+    const currentWeight = (await storage.get(STORAGE_KEYS.fontWeight)) || '400';
     
     linkElement.style.textAlign = currentAlignment;
     linkElement.style.fontSize = currentSize + 'px';
@@ -1115,7 +1322,7 @@ document.addEventListener('DOMContentLoaded', function() {
   captureOriginalMenu();
 
   // Apply saved menu order if it exists
-  applySavedMenuOrder();
+  await applySavedMenuOrder();
   
   // If we've applied a saved order, re-capture the current menu
   captureOriginalMenu();
@@ -1124,7 +1331,7 @@ document.addEventListener('DOMContentLoaded', function() {
   let sortableOptionsPopulated = false;
 
   // Toggle between main menu and settings
-  settingsButton.addEventListener('click', function() {
+  settingsButton.addEventListener('click', async function() {
     if (mainMenu.classList.contains('hidden')) {
       // Show main menu, hide settings
       mainMenu.classList.remove('hidden');
@@ -1155,7 +1362,7 @@ document.addEventListener('DOMContentLoaded', function() {
       sortableOptionsPopulated = true;
       
       // Apply current language to sortable list and UI
-      const currentLanguage = localStorage.getItem('sfmcLanguage') || 'en';
+      const currentLanguage = (await storage.get(STORAGE_KEYS.language)) || 'en';
       console.log('Settings opened - applying language:', currentLanguage);
       
       // Update language select dropdown to match saved language
@@ -1203,7 +1410,7 @@ document.addEventListener('DOMContentLoaded', function() {
   }
 
   // Function to add a new link to the menu
-  function addLinkToMenu(name, url, isCustom = false, isHidden = false) {
+  async function addLinkToMenu(name, url, isCustom = false, isHidden = false) {
     // Create new menu item
     const li = document.createElement('li');
     li.className = 'sf-nav-item';
@@ -1215,7 +1422,7 @@ document.addEventListener('DOMContentLoaded', function() {
     a.target = '_blank';
     
     // Apply current text settings
-    applyTextSettingsToLink(a);
+    await applyTextSettingsToLink(a);
     
     // Add icon and text
     const iconHtml = getIconForMenuItem(name);
@@ -1250,11 +1457,11 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // Function to delete a custom link
-  function deleteCustomLink(text, href) {
+  async function deleteCustomLink(text, href) {
     // Remove from customLinks array
     customLinks = customLinks.filter(link => 
       !(link.text === text && link.href === href));
-    saveCustomLinks();
+    await saveCustomLinks();
     
     // Remove from originalMenuItems
     const index = originalMenuItems.findIndex(item => 
@@ -1305,19 +1512,19 @@ document.addEventListener('DOMContentLoaded', function() {
   }
   
   // Function to load saved menu order from local storage
-  function getSavedMenuOrder() {
-    const savedOrder = localStorage.getItem('sfmcMenuOrder');
-    return savedOrder ? JSON.parse(savedOrder) : null;
+  async function getSavedMenuOrder() {
+    const savedOrder = await storage.get(STORAGE_KEYS.menuOrder);
+    return savedOrder || null;
   }
 
   // Function to save menu order to local storage
-  function saveMenuOrder(menuItems) {
-    localStorage.setItem('sfmcMenuOrder', JSON.stringify(menuItems));
+  async function saveMenuOrder(menuItems) {
+    await storage.set(STORAGE_KEYS.menuOrder, menuItems);
   }
 
   // Function to apply the saved menu order to the main menu
-  function applySavedMenuOrder() {
-    const savedMenuItems = getSavedMenuOrder();
+  async function applySavedMenuOrder() {
+    const savedMenuItems = await getSavedMenuOrder();
     if (!savedMenuItems || !Array.isArray(savedMenuItems) || savedMenuItems.length === 0) {
       console.log('No valid saved menu order found, using original menu');
       return; // No saved order, use default
@@ -1644,4 +1851,44 @@ document.addEventListener('DOMContentLoaded', function() {
       });
     });
   }
+
+
+  async function migrateLocalStorageToChromeSync() {
+    const migratedFlag = await storage.get('sfmcMigratedToSyncV1');
+    if (migratedFlag) return;
+
+    const keysToMigrate = [
+      STORAGE_KEYS.customLinks,
+      STORAGE_KEYS.accentColor,
+      STORAGE_KEYS.textAlignment,
+      STORAGE_KEYS.textSize,
+      STORAGE_KEYS.fontWeight,
+      STORAGE_KEYS.language,
+      STORAGE_KEYS.menuOrder,
+      STORAGE_KEYS.themeMode,
+      STORAGE_KEYS.fontFamily
+    ];
+
+    const migrated = {};
+    keysToMigrate.forEach(key => {
+      const value = localStorage.getItem(key);
+      if (value === null || value === undefined) return;
+
+      if (key === STORAGE_KEYS.menuOrder || key === STORAGE_KEYS.customLinks) {
+        try {
+          migrated[key] = JSON.parse(value);
+        } catch {
+          migrated[key] = value;
+        }
+      } else {
+        migrated[key] = value;
+      }
+    });
+
+    if (Object.keys(migrated).length > 0) {
+      await storage.setMany(migrated);
+    }
+    await storage.set('sfmcMigratedToSyncV1', true);
+  }
+
 });

@@ -126,11 +126,35 @@
           </div>
           <div class="sf-card-body">
             <div class="sf-form-group">
+              <label for="theme-mode" data-i18n="themeMode">Theme Mode</label>
+              <select id="theme-mode" class="sf-select">
+                <option value="system" data-i18n="themeSystem">System</option>
+                <option value="light" data-i18n="themeLight">Light</option>
+                <option value="dark" data-i18n="themeDark">Dark</option>
+              </select>
+            </div>
+            <div class="sf-form-group">
               <label for="accent-color" data-i18n="accentColor">Accent Color</label>
               <div class="color-picker-wrapper">
                 <input type="color" id="accent-color" value="#0176d3">
                 <span id="color-value">#0176d3</span>
               </div>
+            </div>
+            <div class="sf-form-group" style="margin-top: 20px;">
+              <label for="font-family" data-i18n="fontFamily">Font Family</label>
+              <select id="font-family" class="sf-select">
+                <option value="salesforce" data-i18n="fontSalesforce">Salesforce Sans (Default)</option>
+                <option value="system" data-i18n="fontSystem">System UI</option>
+                <option value="arial" data-i18n="fontArial">Arial</option>
+                <option value="georgia" data-i18n="fontGeorgia">Georgia</option>
+                <option value="monospace" data-i18n="fontMonospace">Monospace</option>
+                <option value="Poppins">Poppins (Google)</option>
+                <option value="Montserrat">Montserrat (Google)</option>
+                <option value="Lato">Lato (Google)</option>
+                <option value="Open Sans">Open Sans (Google)</option>
+                <option value="Roboto">Roboto (Google)</option>
+                <option value="Inter">Inter (Google)</option>
+              </select>
             </div>
             <div class="sf-form-group" style="margin-top: 20px;">
               <label data-i18n="textAlignment">Text Alignment</label>
